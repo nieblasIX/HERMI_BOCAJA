@@ -1,0 +1,644 @@
+{
+  "este": {
+    "nombre": "Parcela Este",
+    "umbral_global": 0.2,
+    "vuelos": [
+      {
+        "fecha": "2025-06-26",
+        "cultivo": "ALFALFA",
+        "png": "HERMI_ESTE_2025_06_26_vari.png",
+        "png_orto": "HERMI_ESTE_2025_06_26_orto.png",
+        "bounds": [
+          498870.7839888769,
+          2240771.953920169,
+          499310.0926465786,
+          2241128.3055903153
+        ],
+        "crs": "EPSG:32614",
+        "pct_area_bajo_umbral": 61.5,
+        "vari_promedio": 0.1477,
+        "vari_min": -1.0,
+        "vari_max": 1.0,
+        "vari_std": 0.1306
+      },
+      {
+        "fecha": "2025-08-15",
+        "cultivo": "ALFALFA",
+        "png": "HERMI_ESTE_2025_08_15_vari.png",
+        "png_orto": "HERMI_ESTE_2025_08_15_orto.png",
+        "bounds": [
+          498869.3443555053,
+          2240770.731413343,
+          499316.17664545664,
+          2241119.3913301467
+        ],
+        "crs": "EPSG:32614",
+        "pct_area_bajo_umbral": 92.0,
+        "vari_promedio": 0.0282,
+        "vari_min": -1.0,
+        "vari_max": 1.0,
+        "vari_std": 0.1066
+      },
+      {
+        "fecha": "2025-11-14",
+        "cultivo": "ALFALFA",
+        "png": "HERMI_ESTE_2025_11_14_vari.png",
+        "png_orto": "HERMI_ESTE_2025_11_14_orto.png",
+        "bounds": [
+          498865.2469754684,
+          2240768.5556787564,
+          499313.7232781645,
+          2241129.632339413
+        ],
+        "crs": "EPSG:32614",
+        "pct_area_bajo_umbral": 74.2,
+        "vari_promedio": 0.1309,
+        "vari_min": -1.0,
+        "vari_max": 1.0,
+        "vari_std": 0.2733
+      },
+      {
+        "fecha": "2025-11-14",
+        "cultivo": "ALFALFA",
+        "png": "HERMI_ESTE_2025_11_14_vari.png",
+        "png_orto": null,
+        "bounds": [
+          498865.7469713464,
+          2240768.6156782014,
+          499313.7232781645,
+          2241129.632339413
+        ],
+        "crs": "EPSG:32614",
+        "pct_area_bajo_umbral": 86.3,
+        "vari_promedio": 0.1369,
+        "vari_min": 0.0,
+        "vari_max": 1.0,
+        "vari_std": 0.3438
+      },
+      {
+        "fecha": "2026-02-06",
+        "cultivo": "ALFALFA",
+        "png": "HERMI_ESTE_2026_02_06_vari.png",
+        "png_orto": "HERMI_ESTE_2026_02_06_orto.png",
+        "bounds": [
+          498869.62203826103,
+          2240773.161531354,
+          499314.9231469585,
+          2241117.14962394
+        ],
+        "crs": "EPSG:32614",
+        "pct_area_bajo_umbral": 91.4,
+        "vari_promedio": 0.0551,
+        "vari_min": -1.0,
+        "vari_max": 1.0,
+        "vari_std": 0.1221
+      },
+      {
+        "fecha": "2026-02-06",
+        "cultivo": "ALFALFA",
+        "png": "HERMI_ESTE_2026_02_06_vari.png",
+        "png_orto": null,
+        "bounds": [
+          498869.66213019483,
+          2240773.281806911,
+          499314.58236552123,
+          2241117.14962394
+        ],
+        "crs": "EPSG:32614",
+        "pct_area_bajo_umbral": 85.0,
+        "vari_promedio": 0.1502,
+        "vari_min": 0.0,
+        "vari_max": 1.0,
+        "vari_std": 0.3573
+      }
+    ]
+  },
+  "oeste": {
+    "nombre": "Parcela Oeste",
+    "umbral_global": 0.2,
+    "vuelos": [
+      {
+        "fecha": "2025-02-12",
+        "cultivo": "ALFALFA",
+        "png": "HERMI_OESTE_2025_02_12_vari.png",
+        "png_orto": "HERMI_OESTE_2025_02_12_orto.png",
+        "bounds": [
+          498885.4658805079,
+          2240772.7508903444,
+          499308.06845052796,
+          2240942.5066280323
+        ],
+        "crs": "EPSG:32614",
+        "pct_area_bajo_umbral": 97.9,
+        "vari_promedio": -0.0516,
+        "vari_min": -1.0,
+        "vari_max": 1.0,
+        "vari_std": 0.0969
+      },
+      {
+        "fecha": "2025-02-12",
+        "cultivo": "ALFALFA",
+        "png": "HERMI_OESTE_2025_02_12_vari.png",
+        "png_orto": null,
+        "bounds": [
+          498885.4658805079,
+          2240772.882893251,
+          499307.90343585785,
+          2240941.681609867
+        ],
+        "crs": "EPSG:32614",
+        "pct_area_bajo_umbral": 90.6,
+        "vari_promedio": 0.0942,
+        "vari_min": 0.0,
+        "vari_max": 1.0,
+        "vari_std": 0.2921
+      },
+      {
+        "fecha": "2025-02-19",
+        "cultivo": "ALFALFA",
+        "png": "HERMI_OESTE_2025_02_19_vari.png",
+        "png_orto": "HERMI_OESTE_2025_02_19_orto.png",
+        "bounds": [
+          498886.2439167339,
+          2240772.0557663096,
+          499301.5212683891,
+          2240942.196972873
+        ],
+        "crs": "EPSG:32614",
+        "pct_area_bajo_umbral": 98.2,
+        "vari_promedio": -0.0393,
+        "vari_min": -1.0,
+        "vari_max": 1.0,
+        "vari_std": 0.065
+      },
+      {
+        "fecha": "2025-02-20",
+        "cultivo": "ALFALFA",
+        "png": "HERMI_OESTE_2025_02_20_vari.png",
+        "png_orto": "HERMI_OESTE_2025_02_20_orto.png",
+        "bounds": [
+          498886.2439167339,
+          2240772.0557663096,
+          499301.5212683891,
+          2240942.196972873
+        ],
+        "crs": "EPSG:32614",
+        "pct_area_bajo_umbral": 98.2,
+        "vari_promedio": -0.0393,
+        "vari_min": -1.0,
+        "vari_max": 1.0,
+        "vari_std": 0.065
+      },
+      {
+        "fecha": "2025-02-20",
+        "cultivo": "ALFALFA",
+        "png": "HERMI_OESTE_2025_02_20_vari.png",
+        "png_orto": null,
+        "bounds": [
+          498886.2439167339,
+          2240772.217098764,
+          499301.3276658941,
+          2240941.6807090184
+        ],
+        "crs": "EPSG:32614",
+        "pct_area_bajo_umbral": 93.2,
+        "vari_promedio": 0.0683,
+        "vari_min": 0.0,
+        "vari_max": 1.0,
+        "vari_std": 0.2523
+      },
+      {
+        "fecha": "2025-02-28",
+        "cultivo": "ALFALFA",
+        "png": "HERMI_OESTE_2025_02_28_vari.png",
+        "png_orto": "HERMI_OESTE_2025_02_28_orto.png",
+        "bounds": [
+          498890.1524951986,
+          2240771.277715221,
+          499308.02324994106,
+          2240913.668638845
+        ],
+        "crs": "EPSG:32614",
+        "pct_area_bajo_umbral": 97.6,
+        "vari_promedio": -0.0112,
+        "vari_min": -1.0,
+        "vari_max": 1.0,
+        "vari_std": 0.0833
+      },
+      {
+        "fecha": "2025-02-28",
+        "cultivo": "ALFALFA",
+        "png": "HERMI_OESTE_2025_02_28_vari.png",
+        "png_orto": null,
+        "bounds": [
+          498890.1524951986,
+          2240771.780863361,
+          499307.8660138052,
+          2240913.668638845
+        ],
+        "crs": "EPSG:32614",
+        "pct_area_bajo_umbral": 90.0,
+        "vari_promedio": 0.0998,
+        "vari_min": 0.0,
+        "vari_max": 1.0,
+        "vari_std": 0.2998
+      },
+      {
+        "fecha": "2025-03-07",
+        "cultivo": "ALFALFA",
+        "png": "HERMI_OESTE_2025_03_07_vari.png",
+        "png_orto": "HERMI_OESTE_2025_03_07_orto.png",
+        "bounds": [
+          498885.68867062265,
+          2240772.1481659557,
+          499299.5510047735,
+          2240941.900522748
+        ],
+        "crs": "EPSG:32614",
+        "pct_area_bajo_umbral": 91.6,
+        "vari_promedio": 0.0835,
+        "vari_min": -1.0,
+        "vari_max": 1.0,
+        "vari_std": 0.1168
+      },
+      {
+        "fecha": "2025-03-07",
+        "cultivo": "ALFALFA",
+        "png": "HERMI_OESTE_2025_03_07_vari.png",
+        "png_orto": null,
+        "bounds": [
+          498885.68867062265,
+          2240772.4953077896,
+          499299.2985342326,
+          2240941.7742893538
+        ],
+        "crs": "EPSG:32614",
+        "pct_area_bajo_umbral": 83.1,
+        "vari_promedio": 0.1693,
+        "vari_min": 0.0,
+        "vari_max": 1.0,
+        "vari_std": 0.375
+      },
+      {
+        "fecha": "2025-03-14",
+        "cultivo": "ALFALFA",
+        "png": "HERMI_OESTE_2025_03_14_vari.png",
+        "png_orto": "HERMI_OESTE_2025_03_14_orto.png",
+        "bounds": [
+          -99.01067806915405,
+          20.264675818595936,
+          -99.00664626156566,
+          20.26621758912615
+        ],
+        "crs": "EPSG:4326",
+        "pct_area_bajo_umbral": 87.5,
+        "vari_promedio": 0.081,
+        "vari_min": -1.0,
+        "vari_max": 1.0,
+        "vari_std": 0.1274
+      },
+      {
+        "fecha": "2025-03-14",
+        "cultivo": "ALFALFA",
+        "png": "HERMI_OESTE_2025_03_14_vari.png",
+        "png_orto": null,
+        "bounds": [
+          -99.01067806915405,
+          20.264697743833576,
+          -99.00664900222037,
+          20.26621758912615
+        ],
+        "crs": "EPSG:4326",
+        "pct_area_bajo_umbral": 83.0,
+        "vari_promedio": 0.1703,
+        "vari_min": 0.0,
+        "vari_max": 1.0,
+        "vari_std": 0.3759
+      },
+      {
+        "fecha": "2025-03-21",
+        "cultivo": "ALFALFA",
+        "png": "HERMI_OESTE_2025_03_21_vari.png",
+        "png_orto": "HERMI_OESTE_2025_03_21_orto.png",
+        "bounds": [
+          -99.0107405156343,
+          20.26468575797921,
+          -99.00659797936808,
+          20.266234265718342
+        ],
+        "crs": "EPSG:4326",
+        "pct_area_bajo_umbral": 97.3,
+        "vari_promedio": 0.0488,
+        "vari_min": -1.0,
+        "vari_max": 1.0,
+        "vari_std": 0.0949
+      },
+      {
+        "fecha": "2025-03-21",
+        "cultivo": "ALFALFA",
+        "png": "HERMI_OESTE_2025_03_21_vari.png",
+        "png_orto": null,
+        "bounds": [
+          -99.0107504023557,
+          20.264730557185548,
+          -99.00661620801066,
+          20.266234265718342
+        ],
+        "crs": "EPSG:4326",
+        "pct_area_bajo_umbral": 84.5,
+        "vari_promedio": 0.1546,
+        "vari_min": 0.0,
+        "vari_max": 1.0,
+        "vari_std": 0.3615
+      },
+      {
+        "fecha": "2025-03-28",
+        "cultivo": "ALFALFA",
+        "png": "HERMI_OESTE_2025_03_28_vari.png",
+        "png_orto": "HERMI_OESTE_2025_03_28_orto.png",
+        "bounds": [
+          -99.01075346001709,
+          20.264677838497196,
+          -99.00660601376589,
+          20.266237751436595
+        ],
+        "crs": "EPSG:4326",
+        "pct_area_bajo_umbral": 91.6,
+        "vari_promedio": 0.0876,
+        "vari_min": -1.0,
+        "vari_max": 1.0,
+        "vari_std": 0.1186
+      },
+      {
+        "fecha": "2025-03-28",
+        "cultivo": "ALFALFA",
+        "png": "HERMI_OESTE_2025_03_28_vari.png",
+        "png_orto": null,
+        "bounds": [
+          -99.01075346001709,
+          20.264661204354475,
+          -99.00658445098829,
+          20.266242680071475
+        ],
+        "crs": "EPSG:4326",
+        "pct_area_bajo_umbral": 83.5,
+        "vari_promedio": 0.1655,
+        "vari_min": 0.0,
+        "vari_max": 1.0,
+        "vari_std": 0.3716
+      },
+      {
+        "fecha": "2025-04-11",
+        "cultivo": "ALFALFA",
+        "png": "HERMI_OESTE_2025_04_11_vari.png",
+        "png_orto": "HERMI_OESTE_2025_04_11_orto.png",
+        "bounds": [
+          -99.01067059628647,
+          20.26468159064523,
+          -99.0066202398584,
+          20.26623170824601
+        ],
+        "crs": "EPSG:4326",
+        "pct_area_bajo_umbral": 92.6,
+        "vari_promedio": 0.0678,
+        "vari_min": -1.0,
+        "vari_max": 1.0,
+        "vari_std": 0.114
+      },
+      {
+        "fecha": "2025-04-11",
+        "cultivo": "ALFALFA",
+        "png": "HERMI_OESTE_2025_04_11_vari.png",
+        "png_orto": null,
+        "bounds": [
+          -99.01067059628647,
+          20.26468159064523,
+          -99.0066202398584,
+          20.26623170824601
+        ],
+        "crs": "EPSG:4326",
+        "pct_area_bajo_umbral": 84.2,
+        "vari_promedio": 0.1583,
+        "vari_min": 0.0,
+        "vari_max": 1.0,
+        "vari_std": 0.365
+      },
+      {
+        "fecha": "2025-04-24",
+        "cultivo": "ALFALFA",
+        "png": "HERMI_OESTE_2025_04_24_vari.png",
+        "png_orto": "HERMI_OESTE_2025_04_24_orto.png",
+        "bounds": [
+          498883.45604142366,
+          2240769.4210738544,
+          499309.826892034,
+          2240944.2625757745
+        ],
+        "crs": "EPSG:32614",
+        "pct_area_bajo_umbral": 99.0,
+        "vari_promedio": -0.0672,
+        "vari_min": -1.0,
+        "vari_max": 1.0,
+        "vari_std": 0.0761
+      },
+      {
+        "fecha": "2025-06-26",
+        "cultivo": "ALFALFA",
+        "png": "HERMI_OESTE_2025_06_26_vari.png",
+        "png_orto": "HERMI_OESTE_2025_06_26_orto.png",
+        "bounds": [
+          498562.15699372016,
+          2240730.121030817,
+          498932.8876647313,
+          2240994.295299239
+        ],
+        "crs": "EPSG:32614",
+        "pct_area_bajo_umbral": 43.7,
+        "vari_promedio": 0.1936,
+        "vari_min": -0.9796,
+        "vari_max": 1.0,
+        "vari_std": 0.0974
+      },
+      {
+        "fecha": "2025-11-14",
+        "cultivo": "ALFALFA",
+        "png": "HERMI_OESTE_2025_11_14_vari.png",
+        "png_orto": "HERMI_OESTE_2025_11_14_orto.png",
+        "bounds": [
+          498557.1252221275,
+          2240729.1508523156,
+          498934.57911632495,
+          2240998.0467279577
+        ],
+        "crs": "EPSG:32614",
+        "pct_area_bajo_umbral": 76.3,
+        "vari_promedio": 0.1106,
+        "vari_min": -1.0,
+        "vari_max": 1.0,
+        "vari_std": 0.2575
+      },
+      {
+        "fecha": "2025-11-14",
+        "cultivo": "ALFALFA",
+        "png": "HERMI_OESTE_2025_11_14_vari.png",
+        "png_orto": null,
+        "bounds": [
+          498557.1252221275,
+          2240729.1508523156,
+          498934.57911632495,
+          2240998.0267282645
+        ],
+        "crs": "EPSG:32614",
+        "pct_area_bajo_umbral": 86.1,
+        "vari_promedio": 0.1387,
+        "vari_min": 0.0,
+        "vari_max": 1.0,
+        "vari_std": 0.3456
+      },
+      {
+        "fecha": "2026-02-06",
+        "cultivo": "ALFALFA",
+        "png": "HERMI_OESTE_2026_02_06_vari.png",
+        "png_orto": "HERMI_OESTE_2026_02_06_orto.png",
+        "bounds": [
+          498556.43676856026,
+          2240730.575605919,
+          498937.4057514607,
+          2240995.6280181347
+        ],
+        "crs": "EPSG:32614",
+        "pct_area_bajo_umbral": 82.1,
+        "vari_promedio": 0.111,
+        "vari_min": -1.0,
+        "vari_max": 1.0,
+        "vari_std": 0.1365
+      },
+      {
+        "fecha": "2026-02-06",
+        "cultivo": "ALFALFA",
+        "png": "HERMI_OESTE_2026_02_06_vari.png",
+        "png_orto": null,
+        "bounds": [
+          498556.43676856026,
+          2240730.575605919,
+          498937.2657555092,
+          2240995.0080358833
+        ],
+        "crs": "EPSG:32614",
+        "pct_area_bajo_umbral": 83.7,
+        "vari_promedio": 0.163,
+        "vari_min": 0.0,
+        "vari_max": 1.0,
+        "vari_std": 0.3693
+      },
+      {
+        "fecha": "2026-03-03",
+        "cultivo": "ALFALFA",
+        "png": "HERMI_OESTE_2026_03_03_vari.png",
+        "png_orto": "HERMI_OESTE_2026_03_03_orto.png",
+        "bounds": [
+          498555.58200536534,
+          2240729.4586417032,
+          498936.544427168,
+          2240995.3663221705
+        ],
+        "crs": "EPSG:32614",
+        "pct_area_bajo_umbral": 86.1,
+        "vari_promedio": 0.0893,
+        "vari_min": -1.0,
+        "vari_max": 1.0,
+        "vari_std": 0.1238
+      },
+      {
+        "fecha": "2026-03-03",
+        "cultivo": "ALFALFA",
+        "png": "HERMI_OESTE_2026_03_03_vari.png",
+        "png_orto": null,
+        "bounds": [
+          498555.60200444254,
+          2240729.738628731,
+          498936.4444317819,
+          2240994.8863444077
+        ],
+        "crs": "EPSG:32614",
+        "pct_area_bajo_umbral": 82.2,
+        "vari_promedio": 0.1784,
+        "vari_min": 0.0,
+        "vari_max": 1.0,
+        "vari_std": 0.3829
+      },
+      {
+        "fecha": "2026-04-16",
+        "cultivo": "ALFALFA",
+        "png": "HERMI_OESTE_2026_04_16_vari.png",
+        "png_orto": "HERMI_OESTE_2026_04_16_orto.png",
+        "bounds": [
+          498560.6862684759,
+          2240731.1107850443,
+          498933.64594370226,
+          2240995.990427942
+        ],
+        "crs": "EPSG:32614",
+        "pct_area_bajo_umbral": 96.9,
+        "vari_promedio": -0.0079,
+        "vari_min": -1.0,
+        "vari_max": 1.0,
+        "vari_std": 0.085
+      },
+      {
+        "fecha": "2026-04-16",
+        "cultivo": "ALFALFA",
+        "png": "HERMI_OESTE_2026_04_16_vari.png",
+        "png_orto": null,
+        "bounds": [
+          498560.70626845845,
+          2240731.1907849363,
+          498932.42594476463,
+          2240995.7704282384
+        ],
+        "crs": "EPSG:32614",
+        "pct_area_bajo_umbral": 93.5,
+        "vari_promedio": 0.0647,
+        "vari_min": 0.0,
+        "vari_max": 1.0,
+        "vari_std": 0.2459
+      },
+      {
+        "fecha": "2026-05-12",
+        "cultivo": "ALFALFA",
+        "png": "HERMI_OESTE_2026_05_12_vari.png",
+        "png_orto": null,
+        "bounds": [
+          498561.59419085085,
+          2240729.4142426983,
+          498947.0836437076,
+          2240997.446695664
+        ],
+        "crs": "EPSG:32614",
+        "pct_area_bajo_umbral": 83.7,
+        "vari_promedio": 0.1631,
+        "vari_min": 0.0,
+        "vari_max": 1.0,
+        "vari_std": 0.3695
+      },
+      {
+        "fecha": "2026-05-12",
+        "cultivo": "MAIZ",
+        "png": "HERMI_OESTE_2026_05_12_vari.png",
+        "png_orto": "HERMI_OESTE_2026_05_12_orto.png",
+        "bounds": [
+          498561.59419085085,
+          2240728.734261845,
+          498947.0836437076,
+          2240998.0266793333
+        ],
+        "crs": "EPSG:32614",
+        "pct_area_bajo_umbral": 70.9,
+        "vari_promedio": 0.1385,
+        "vari_min": -1.0,
+        "vari_max": 1.0,
+        "vari_std": 0.13
+      }
+    ]
+  }
+}
