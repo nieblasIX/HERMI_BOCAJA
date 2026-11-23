@@ -117,17 +117,17 @@
         "png": "HERMI_ESTE_2026_11_20_vari.png",
         "png_orto": "HERMI_ESTE_2026_11_20_orto.png",
         "bounds": [
-          498557.96283102507,
-          2240730.120918006,
-          498936.41283596866,
-          2240993.160918993
+          498867.71704806865,
+          2240777.723313991,
+          499310.18705895497,
+          2241120.5033120126
         ],
         "crs": "EPSG:32614",
-        "pct_area_bajo_umbral": 83.4,
-        "vari_promedio": 0.1003,
+        "pct_area_bajo_umbral": 94.0,
+        "vari_promedio": -0.0094,
         "vari_min": -1.0,
         "vari_max": 1.0,
-        "vari_std": 0.1351
+        "vari_std": 0.1263
       }
     ]
   },
@@ -681,17 +681,17 @@
         "png": "HERMI_OESTE_2026_11_20_vari.png",
         "png_orto": "HERMI_OESTE_2026_11_20_orto.png",
         "bounds": [
-          498867.71704806865,
-          2240777.723313991,
-          499310.18705895497,
-          2241120.5033120126
+          498557.96283102507,
+          2240730.120918006,
+          498936.41283596866,
+          2240993.160918993
         ],
         "crs": "EPSG:32614",
-        "pct_area_bajo_umbral": 94.0,
-        "vari_promedio": -0.0094,
+        "pct_area_bajo_umbral": 83.4,
+        "vari_promedio": 0.1003,
         "vari_min": -1.0,
         "vari_max": 1.0,
-        "vari_std": 0.1263
+        "vari_std": 0.1351
       }
     ]
   }
