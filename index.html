@@ -2,363 +2,1504 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bitácora de Vigor — Rancho HERMI</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#101208">
+<title>Bitácora de Vigor · Rancho HERMI</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-
-<!-- ENLACES CDN CORREGIDOS Y SEGUROS (Librerías completas de graficación y mapas) -->
-<script src="https://cloudflare.com"></script>
-<script src="https://unpkg.com"></script>
-<link href="https://unpkg.com" rel="stylesheet" />
-
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
+<script defer src="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
 <style>
   :root{
-    --bg:#1C1B16; --surface:#242319; --surface-2:#2D2B1F; --border:#3D3A2C;
-    --text:#ECE6D6; --text-muted:#9A9382;
-    --vigor:#6B8E4E; --vigor-bright:#8FB86B;
-    --stress:#D08C3F; --alert:#C1502E;
+    --bg:#101208; --bg-2:#161a10;
+    --surface:#1b2015; --surface-2:#232a19; --surface-3:#2b3320;
+    --border:#343b29; --border-soft:#2a3120;
+    --text:#f2eee1; --muted:#a8ae9a; --faint:#7f8772;
+    --accent:#9bc46e; --accent-2:#c9e6a0; --accent-ink:#132009;
+    --amber:#e5a64e; --red:#de6b52; --blue:#82b4d6;
+    --radius:16px; --radius-sm:11px;
+    --shadow:0 14px 40px rgba(0,0,0,.28);
+    --maxw:1180px;
   }
   *{box-sizing:border-box;}
-  body{margin:0;background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;}
-  .wrap{max-width:1120px;margin:0 auto;padding:28px 20px 60px;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0; color:var(--text); font-family:'Inter',system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+    background:
+      radial-gradient(1100px 520px at 8% -12%, rgba(155,196,110,.10), transparent 62%),
+      radial-gradient(900px 480px at 102% -4%, rgba(229,166,78,.07), transparent 58%),
+      var(--bg);
+    min-height:100vh; overscroll-behavior-y:contain;
+  }
+  button, a { -webkit-tap-highlight-color:transparent; }
+  button{font-family:inherit; color:inherit;}
+  a{color:inherit;}
+  h1,h2,h3,p{margin:0;}
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 16px 56px;}
 
-  header{margin-bottom:24px;border-bottom:1px solid var(--border);padding-bottom:20px;}
-  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--vigor-bright);margin:0 0 8px;}
-  h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(28px,4.5vw,40px);margin:0 0 6px;letter-spacing:-0.01em;}
-  .subtitle{color:var(--text-muted);font-size:14px;margin:0;max-width:60ch;}
+  /* ---------- Encabezado ---------- */
+  header.hero{padding:26px 0 18px;}
+  .eyebrow{
+    display:flex; align-items:center; gap:8px; margin:0 0 10px;
+    font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.16em;
+    text-transform:uppercase; color:var(--accent-2);
+  }
+  .eyebrow::before{content:""; width:22px; height:1px; background:var(--accent); opacity:.8;}
+  h1{
+    font-family:'Fraunces',serif; font-weight:600; letter-spacing:-.015em;
+    font-size:clamp(30px,6.4vw,46px); line-height:1.03;
+  }
+  h1 em{font-style:italic; color:var(--accent-2);}
+  .subtitle{color:var(--muted); font-size:14px; line-height:1.55; margin-top:10px; max-width:64ch;}
+  .status-line{
+    display:flex; flex-wrap:wrap; align-items:center; gap:8px 14px; margin-top:16px;
+    font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--muted);
+  }
+  .status-line .dot{width:7px; height:7px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 4px rgba(155,196,110,.12);}
+  .status-line .sep{color:var(--border);}
+  .share-btn{
+    margin-left:auto; display:inline-flex; align-items:center; gap:7px;
+    background:var(--surface-2); border:1px solid var(--border); color:var(--muted);
+    padding:9px 13px; border-radius:999px; font-size:11.5px; cursor:pointer;
+    font-family:'IBM Plex Mono',monospace; transition:.2s;
+  }
+  .share-btn:hover{border-color:var(--accent); color:var(--accent-2);}
 
-  /* Selector de Parcelas */
-  .parcel-selector { display: flex; gap: 10px; margin-bottom: 24px; }
-  .btn-parcel { background: var(--surface-2); border: 1px solid var(--border); color: var(--text-muted); padding: 10px 18px; border-radius: 5px; cursor: pointer; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: .05em; transition: all 0.2s ease; }
-  .btn-parcel.active { background: var(--vigor-bright); color: var(--bg); font-weight: 600; border-color: var(--vigor-bright); box-shadow: 0 4px 12px rgba(143,184,107,0.15); }
+  /* ---------- Barra de parcelas ---------- */
+  .parcel-bar{
+    position:sticky; top:0; z-index:40; margin:0 -16px; padding:10px 16px;
+    background:rgba(16,18,8,.82); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--border-soft);
+    display:flex; gap:8px; overflow-x:auto; scrollbar-width:none;
+  }
+  .parcel-bar::-webkit-scrollbar{display:none;}
+  .parcel-btn{
+    flex:1 0 auto; min-height:48px; display:flex; flex-direction:column; justify-content:center; gap:2px;
+    background:var(--surface); border:1px solid var(--border); color:var(--muted);
+    padding:8px 16px; border-radius:12px; cursor:pointer; text-align:left;
+    transition:border-color .2s, background .2s, color .2s;
+  }
+  .parcel-btn .pb-title{font-weight:600; font-size:13.5px; color:var(--text); white-space:nowrap;}
+  .parcel-btn .pb-sub{font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.05em; text-transform:uppercase; color:var(--faint); white-space:nowrap;}
+  .parcel-btn[aria-pressed="true"]{
+    background:linear-gradient(180deg, rgba(155,196,110,.16), rgba(155,196,110,.05));
+    border-color:rgba(155,196,110,.55); color:var(--accent-2);
+  }
+  .parcel-btn[aria-pressed="true"] .pb-sub{color:var(--accent);}
+  @media (min-width:700px){ .parcel-btn{flex-direction:row; align-items:center; justify-content:center; gap:10px;} }
 
-  /* Rejilla de Tarjetas Métricas Responsivas */
-  .cards{display:grid;grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));gap:12px;margin-bottom:24px;}
-  .card{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:14px 16px;}
-  .card .label{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px;}
-  .card .value{font-family:'Fraunces',serif;font-size:24px;font-weight:600;}
-  .card .delta{font-family:'IBM Plex Mono',monospace;font-size:12px;margin-top:4px;}
-  .delta.up{color:var(--vigor-bright);} .delta.down{color:var(--alert);}
+  /* ---------- Tarjeta del mapa ---------- */
+  .map-card{
+    margin-top:16px; background:linear-gradient(180deg,var(--surface),var(--bg-2));
+    border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow);
+    overflow:hidden;
+  }
+  .card-head{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:15px 16px; flex-wrap:wrap;}
+  .card-head h2{font-size:14px; font-weight:600; letter-spacing:.02em;}
+  .card-head .hint{font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--faint);}
+  .map-head{padding:14px 16px 10px; display:flex; align-items:flex-start; justify-content:space-between; gap:12px; flex-wrap:wrap; border-bottom:1px solid var(--border-soft);}
+  .kicker{font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--faint); margin-bottom:4px;}
+  .map-head h2{font-family:'Fraunces',serif; font-size:22px; font-weight:600; letter-spacing:-.01em;}
+  .map-tools{display:flex; align-items:center; gap:8px; flex-wrap:wrap;}
+  .seg{display:flex; background:var(--bg); border:1px solid var(--border); border-radius:10px; padding:3px; gap:2px;}
+  .seg button{
+    border:0; background:transparent; color:var(--muted); font-size:11.5px; font-weight:500;
+    padding:7px 11px; border-radius:7px; cursor:pointer; white-space:nowrap; transition:.18s;
+  }
+  .seg button[aria-pressed="true"]{background:var(--accent); color:var(--accent-ink); font-weight:600;}
+  .ghost-btn{
+    display:inline-flex; align-items:center; gap:6px; background:var(--surface-2); border:1px solid var(--border);
+    color:var(--muted); padding:8px 12px; border-radius:9px; font-size:11.5px; cursor:pointer; transition:.18s; white-space:nowrap;
+  }
+  .ghost-btn:hover:not(:disabled){border-color:var(--accent); color:var(--accent-2);}
+  .ghost-btn[aria-pressed="true"]{border-color:var(--accent); color:var(--accent-2); background:rgba(155,196,110,.10);}
+  .ghost-btn:disabled{opacity:.4; cursor:not-allowed;}
 
-  /* Grilla de Contenido Principal */
-  .main-grid{display:grid;grid-template-columns:1.20fr 1fr;gap:16px;margin-bottom:24px;}
-  @media (max-width: 868px) { .main-grid { grid-template-columns: 1fr; } }
+  .map-shell{position:relative; background:#0c0f07;}
+  #map{width:100%; height:clamp(320px,50vh,520px); background:#0c0f07;}
+  #map .maplibregl-ctrl-group{background:var(--surface-2); border:1px solid var(--border);}
+  #map .maplibregl-ctrl-group button{background:transparent;}
+  #map .maplibregl-ctrl-group button span{filter:invert(.85);}
+  #map .maplibregl-ctrl-attrib{font-size:9px; background:rgba(16,18,8,.7);}
+  #map .maplibregl-ctrl-attrib a{color:var(--muted);}
+  #map-fallback{width:100%; height:clamp(320px,50vh,520px); display:flex; align-items:center; justify-content:center; overflow:hidden; background:#0c0f07;}
+  #map-fallback[hidden]{display:none;}
+  #map-fallback img{width:100%; height:100%; object-fit:contain;}
+  .map-loader{
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center; gap:10px;
+    background:rgba(12,15,7,.72); backdrop-filter:blur(3px); z-index:5;
+    font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--muted);
+    transition:opacity .3s; pointer-events:none;
+  }
+  .map-loader.hidden{opacity:0; visibility:hidden;}
+  .spin{width:16px; height:16px; border:2px solid var(--border); border-top-color:var(--accent); border-radius:50%; animation:spin .8s linear infinite;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .map-badge{
+    position:absolute; left:12px; top:12px; z-index:4;
+    background:rgba(16,18,8,.78); border:1px solid var(--border); border-radius:999px;
+    padding:6px 11px; font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.05em;
+    color:var(--accent-2); backdrop-filter:blur(6px); pointer-events:none;
+  }
 
-  .panel{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:16px;}
-  .panel h2{font-family:'Inter',sans-serif;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--text-muted);margin:0 0 12px;}
+  .flight-nav{
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    padding:10px 16px; border-top:1px solid var(--border-soft);
+  }
+  .flight-nav .nav-btn{
+    width:40px; height:40px; flex:none; display:flex; align-items:center; justify-content:center;
+    background:var(--surface-2); border:1px solid var(--border); border-radius:10px;
+    color:var(--muted); font-size:15px; cursor:pointer; transition:.18s;
+  }
+  .flight-nav .nav-btn:hover:not(:disabled){border-color:var(--accent); color:var(--accent-2);}
+  .flight-nav .nav-btn:disabled{opacity:.35; cursor:not-allowed;}
+  .flight-nav .nav-mid{display:flex; flex-direction:column; align-items:center; gap:2px;}
+  .flight-nav .nav-date{font-family:'Fraunces',serif; font-size:17px; font-weight:600;}
+  .flight-nav .nav-pos{font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--faint);}
 
-  /* Contenedor del Mapa */
-  #map { width: 100%; height: 420px; border-radius: 4px; border: 1px solid var(--border); background: var(--surface-2); }
-  
-  /* Barra Temporal Dinámica */
-  .map-timeline-container { margin-top: 14px; border-top: 1px solid var(--border); padding-top: 12px; }
-  .timeline-label { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; }
-  .map-timeline { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 6px; }
-  .btn-date { background: var(--surface-2); border: 1px solid var(--border); color: var(--text-muted); padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 11px; font-family: 'IBM Plex Mono', monospace; white-space: nowrap; transition: all 0.15s ease; }
-  .btn-date.active { border-color: var(--vigor-bright); color: var(--vigor-bright); background: rgba(143,184,107,0.05); }
+  .compare-box{padding:12px 16px; border-top:1px solid var(--border-soft);}
+  .compare-labels{display:flex; justify-content:space-between; gap:10px; font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--faint); text-transform:uppercase; letter-spacing:.05em; margin-bottom:8px;}
+  .compare-labels b{color:var(--accent-2); font-weight:500;}
+  input[type="range"].blend{
+    -webkit-appearance:none; appearance:none; width:100%; height:6px; border-radius:999px;
+    background:linear-gradient(90deg, rgba(155,196,110,.25), var(--accent)); outline:none; margin:0;
+  }
+  input[type="range"].blend::-webkit-slider-thumb{
+    -webkit-appearance:none; width:22px; height:22px; border-radius:50%; background:var(--accent-2);
+    border:3px solid var(--bg); box-shadow:0 2px 8px rgba(0,0,0,.5); cursor:pointer;
+  }
+  input[type="range"].blend::-moz-range-thumb{width:18px; height:18px; border-radius:50%; background:var(--accent-2); border:3px solid var(--bg); cursor:pointer;}
 
-  .legend{display:flex;align-items:center;gap:6px;margin-top:14px;}
-  .legend .bar{height:8px;flex:1;border-radius:4px;background:linear-gradient(90deg,#C1502E,#D08C3F,#8FB86B,#4F7A3D);}
-  .legend span{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text-muted);}
+  .legend-row{padding:12px 16px 4px; display:flex; align-items:center; gap:10px;}
+  .legend-row .bar{height:9px; flex:1; border-radius:99px; background:linear-gradient(90deg,#b9352b,#d95a35,#e5a64e,#d6d26a,#8fb86b,#4f7a3d);}
+  .legend-row span{font-family:'IBM Plex Mono',monospace; font-size:9.5px; color:var(--faint);}
+  .legend-note{padding:4px 16px 12px; font-size:11.5px; color:var(--faint); line-height:1.5;}
 
-  /* Sección Inferior de Negocios y Logística */
-  .compare-grid{display:grid;grid-template-columns:1fr 1fr; gap:16px;}
-  @media (max-width: 600px) { .compare-grid { grid-template-columns: 1fr; } }
+  /* ---------- Línea de tiempo ---------- */
+  .timeline-wrap{padding:12px 0 14px; border-top:1px solid var(--border-soft);}
+  .timeline-label{
+    padding:0 16px 8px; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.1em;
+    text-transform:uppercase; color:var(--faint);
+  }
+  .timeline{
+    display:flex; gap:7px; overflow-x:auto; padding:0 16px 4px; scroll-snap-type:x proximity;
+    scrollbar-width:thin; scrollbar-color:var(--border) transparent;
+  }
+  .timeline::-webkit-scrollbar{height:4px;}
+  .timeline::-webkit-scrollbar-thumb{background:var(--border); border-radius:9px;}
+  .tchip{
+    flex:none; scroll-snap-align:center; min-width:58px; padding:8px 10px; border-radius:10px;
+    background:var(--surface-2); border:1px solid var(--border); color:var(--muted);
+    cursor:pointer; text-align:center; transition:.18s; line-height:1.15;
+  }
+  .tchip .tc-d{font-family:'Fraunces',serif; font-size:15px; font-weight:600; color:var(--text); display:block;}
+  .tchip .tc-m{font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:.05em; text-transform:uppercase; color:var(--faint); display:block; margin-top:2px;}
+  .tchip[aria-pressed="true"]{background:rgba(155,196,110,.14); border-color:rgba(155,196,110,.65);}
+  .tchip[aria-pressed="true"] .tc-d{color:var(--accent-2);}
+  .tchip[aria-pressed="true"] .tc-m{color:var(--accent);}
+  .tchip .tc-crop{display:block; width:6px; height:6px; border-radius:50%; margin:5px auto 0; background:var(--c,var(--accent));}
+
+  .downloads{display:flex; gap:8px; flex-wrap:wrap; padding:0 16px 16px;}
+  .dl-link{
+    display:inline-flex; align-items:center; gap:6px; text-decoration:none; font-size:11px;
+    font-family:'IBM Plex Mono',monospace; color:var(--muted); background:var(--surface-2);
+    border:1px solid var(--border); padding:8px 11px; border-radius:8px; transition:.18s; cursor:pointer;
+  }
+  .dl-link:hover{border-color:var(--accent); color:var(--accent-2);}
+
+  /* ---------- KPIs ---------- */
+  .kpis{display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-top:16px;}
+  @media (min-width:760px){ .kpis{grid-template-columns:repeat(4,1fr); gap:12px;} }
+  .kpi{
+    background:linear-gradient(170deg,var(--surface),var(--bg-2));
+    border:1px solid var(--border); border-radius:14px; padding:14px;
+    position:relative; overflow:hidden;
+  }
+  .kpi::after{content:""; position:absolute; inset:0 auto 0 0; width:3px; background:var(--k,var(--accent)); opacity:.75;}
+  .kpi .kpi-label{font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:.09em; text-transform:uppercase; color:var(--faint); margin-bottom:8px;}
+  .kpi .kpi-value{font-family:'Fraunces',serif; font-size:clamp(23px,5.6vw,31px); font-weight:600; line-height:1; letter-spacing:-.01em;}
+  .kpi .kpi-value .unit{font-family:'Inter',sans-serif; font-size:13px; font-weight:500; color:var(--muted); margin-left:3px;}
+  .kpi .kpi-foot{font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--muted); margin-top:8px; display:flex; align-items:center; gap:5px; flex-wrap:wrap; line-height:1.35;}
+  .kpi .kpi-foot .up{color:var(--accent);}
+  .kpi .kpi-foot .down{color:var(--red);}
+  .kpi .kpi-foot .flat{color:var(--muted);}
+  .pill{
+    display:inline-flex; align-items:center; gap:5px; padding:2px 7px; border-radius:999px;
+    font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:.04em; text-transform:uppercase;
+    background:rgba(155,196,110,.12); color:var(--accent-2); border:1px solid rgba(155,196,110,.28);
+  }
+  .pill.warn{background:rgba(229,166,78,.12); color:var(--amber); border-color:rgba(229,166,78,.3);}
+  .pill.bad{background:rgba(222,107,82,.13); color:var(--red); border-color:rgba(222,107,82,.32);}
+
+  /* ---------- Tarjetas y gráficas ---------- */
+  .grid-2{display:grid; grid-template-columns:1fr; gap:14px; margin-top:14px;}
+  @media (min-width:880px){ .grid-2{grid-template-columns:1.05fr .95fr;} }
+  .card{
+    background:linear-gradient(180deg,var(--surface),var(--bg-2));
+    border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow);
+  }
+  .chart-wrap{position:relative; height:250px; padding:0 12px 14px;}
+  @media (min-width:880px){ .chart-wrap{height:278px;} }
+
+  /* ---------- Análisis ---------- */
+  .verdict{
+    margin:0 16px 12px; padding:13px 14px; border-radius:12px; display:flex; gap:11px; align-items:flex-start;
+    background:var(--surface-2); border:1px solid var(--border);
+  }
+  .verdict .vdot{width:9px; height:9px; border-radius:50%; margin-top:5px; flex:none; background:var(--accent); box-shadow:0 0 0 4px rgba(155,196,110,.12);}
+  .verdict.good{border-color:rgba(155,196,110,.4); background:rgba(155,196,110,.07);}
+  .verdict.warn{border-color:rgba(229,166,78,.4); background:rgba(229,166,78,.07);}
+  .verdict.warn .vdot{background:var(--amber); box-shadow:0 0 0 4px rgba(229,166,78,.13);}
+  .verdict.bad{border-color:rgba(222,107,82,.42); background:rgba(222,107,82,.07);}
+  .verdict.bad .vdot{background:var(--red); box-shadow:0 0 0 4px rgba(222,107,82,.13);}
+  .verdict strong{display:block; font-size:14px; margin-bottom:3px;}
+  .verdict p{font-size:12.5px; color:var(--muted); line-height:1.5;}
+
+  .delta-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:8px; padding:0 16px 14px;}
+  .delta-cell{background:var(--surface-2); border:1px solid var(--border-soft); border-radius:10px; padding:10px;}
+  .delta-cell .dl{font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:.06em; text-transform:uppercase; color:var(--faint); margin-bottom:5px;}
+  .delta-cell .dv{font-family:'Fraunces',serif; font-size:18px; font-weight:600; line-height:1;}
+  .delta-cell .dv.up{color:var(--accent);} .delta-cell .dv.down{color:var(--red);} .delta-cell .dv.flat{color:var(--muted);}
+  .delta-cell .ds{font-size:10px; color:var(--faint); margin-top:4px;}
+
+  .findings{list-style:none; margin:0; padding:0 16px 16px; display:flex; flex-direction:column; gap:9px;}
+  .findings li{position:relative; padding-left:15px; font-size:12.5px; line-height:1.55; color:var(--muted);}
+  .findings li::before{content:""; position:absolute; left:0; top:7px; width:5px; height:5px; border-radius:50%; background:var(--accent); opacity:.8;}
+  .findings li b{color:var(--text); font-weight:600;}
+  .findings li.caveat::before{background:var(--faint);}
+  .findings li.caveat{font-size:11.5px; color:var(--faint);}
+
+  /* ---------- Historial ---------- */
+  .history{max-height:420px; overflow-y:auto; padding:0 10px 12px; scrollbar-width:thin; scrollbar-color:var(--border) transparent;}
+  .history::-webkit-scrollbar{width:5px;}
+  .history::-webkit-scrollbar-thumb{background:var(--border); border-radius:9px;}
+  .hist-row{
+    width:100%; display:grid; grid-template-columns:76px 1fr 62px; grid-template-areas:"date crop pct" "date bar pct";
+    align-items:center; gap:3px 10px; padding:9px 10px; border-radius:10px; border:1px solid transparent;
+    background:transparent; cursor:pointer; text-align:left; transition:.16s;
+  }
+  .hist-row:hover{background:var(--surface-2);}
+  .hist-row[aria-pressed="true"]{background:rgba(155,196,110,.10); border-color:rgba(155,196,110,.35);}
+  .hist-date{grid-area:date; font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--muted); line-height:1.3;}
+  .hist-date b{display:block; font-family:'Fraunces',serif; font-size:14px; font-weight:600; color:var(--text); letter-spacing:0;}
+  .hist-crop{grid-area:crop; font-family:'IBM Plex Mono',monospace; font-size:9.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--c,var(--accent)); display:flex; align-items:center; gap:5px;}
+  .hist-crop::before{content:""; width:6px; height:6px; border-radius:50%; background:var(--c,var(--accent));}
+  .hist-mean{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--text); justify-self:end; grid-area:crop; align-self:start;}
+  .hist-bar{grid-area:bar; height:5px; border-radius:99px; background:var(--surface-3); overflow:hidden;}
+  .hist-bar i{display:block; height:100%; border-radius:99px; background:var(--c,var(--amber));}
+  .hist-pct{grid-area:pct; justify-self:end; font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--text);}
+  .hist-pct small{display:block; font-size:8.5px; color:var(--faint); text-transform:uppercase; letter-spacing:.05em; text-align:right;}
+  @media (min-width:560px){
+    .hist-row{grid-template-columns:92px 110px 1fr 64px; grid-template-areas:"date crop bar pct"; gap:10px; padding:10px 12px;}
+    .hist-mean{display:none;}
+  }
+
+  footer.foot{margin-top:24px; padding-top:18px; border-top:1px solid var(--border-soft); color:var(--faint); font-size:11px; line-height:1.6; display:flex; flex-wrap:wrap; gap:6px 16px; justify-content:space-between;}
+  footer.foot code{font-family:'IBM Plex Mono',monospace; color:var(--muted); background:var(--surface-2); padding:1px 5px; border-radius:4px;}
+
+  /* ---------- Utilidades ---------- */
+  .toast{
+    position:fixed; left:50%; bottom:24px; transform:translate(-50%,20px); z-index:100;
+    background:var(--surface-3); border:1px solid var(--border); color:var(--text);
+    padding:11px 18px; border-radius:999px; font-size:12.5px; opacity:0; pointer-events:none;
+    transition:opacity .25s, transform .25s; box-shadow:var(--shadow); max-width:90vw; text-align:center;
+  }
+  .toast.show{opacity:1; transform:translate(-50%,0);}
+  .fatal{
+    position:fixed; inset:0; z-index:200; display:flex; align-items:center; justify-content:center; padding:20px;
+    background:rgba(10,12,6,.93); backdrop-filter:blur(6px);
+  }
+  .fatal[hidden]{display:none;}
+  .fatal-card{max-width:460px; width:100%; background:var(--surface); border:1px solid var(--border); border-radius:18px; padding:24px; box-shadow:var(--shadow);}
+  .fatal-card h2{font-family:'Fraunces',serif; font-size:23px; margin-bottom:10px;}
+  .fatal-card p{font-size:13px; color:var(--muted); line-height:1.6; margin-bottom:10px;}
+  .fatal-card code{font-family:'IBM Plex Mono',monospace; font-size:11.5px; background:var(--bg); padding:2px 5px; border-radius:4px; color:var(--accent-2);}
+  .fatal-card button{margin-top:8px; background:var(--accent); color:var(--accent-ink); border:0; font-weight:600; padding:11px 18px; border-radius:9px; cursor:pointer;}
+  .sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0;}
+  @media (prefers-reduced-motion:reduce){ *{animation-duration:.001ms !important; transition-duration:.001ms !important;} }
+  @media (max-width:480px){
+    .status-line .sep{display:none;}
+    .status-line{gap:8px 12px;}
+  }
+  @media (max-width:420px){
+    .delta-cell{padding:9px 8px;}
+    .delta-cell .dv{font-size:16px;}
+    .delta-cell .dl{font-size:8.5px;}
+    .delta-cell .ds{font-size:9px;}
+    .kpi{padding:12px;}
+    .map-head{padding:12px 14px 8px;}
+    .card-head{padding:13px 14px;}
+  }
 </style>
 </head>
 <body>
 
 <div class="wrap">
-  <header>
-    <p class="eyebrow">Sistema de Inteligencia Agrícola Comercial</p>
-    <h1>Bitácora de Vigor — Rancho HERMI</h1>
-    <p class="subtitle">Análisis temporal de índices de vegetación escalados mediante fotogrametría UAV y control geodésico PPK con apoyo del INEGI.</p>
+  <header class="hero">
+    <p class="eyebrow">Rancho HERMI · Bocaja</p>
+    <h1>Bitácora de <em>vigor</em></h1>
+    <p class="subtitle">Seguimiento temporal de las parcelas a partir de ortofotos UAV e índice de vegetación VARI. Cada vuelo se georreferencia con su fecha, cultivo y estadísticas reales de la parcela.</p>
+    <div class="status-line">
+      <span class="dot" aria-hidden="true"></span>
+      <span id="meta-updated">Cargando datos…</span>
+      <span class="sep" aria-hidden="true">|</span>
+      <span id="meta-flights">—</span>
+      <button class="share-btn" id="btn-share" type="button" title="Copiar enlace de esta vista">⤴ Compartir</button>
+    </div>
   </header>
 
-  <!-- Selector de Filtro de Parcelas -->
-  <div class="parcel-selector">
-    <button id="btn-este" class="btn-parcel active" onclick="cambiarParcela('este')">📍 PARCELA ESTE (ALFALFA)</button>
-    <button id="btn-oeste" class="btn-parcel" onclick="cambiarParcela('oeste')">📍 PARCELA OESTE (MAÍZ/AVENA)</button>
-  </div>
+  <nav class="parcel-bar" id="parcel-tabs" aria-label="Seleccionar parcela"></nav>
 
-  <!-- Tarjetas de Control de Métricas -->
-  <div class="cards">
-    <div class="card">
-      <div class="label">Área Monitoreada</div>
-      <div id="txt-area" class="value">21.2 Ha</div>
-      <div id="txt-cultivo" class="delta up">Variedad: Comercial</div>
-    </div>
-    <div class="card">
-      <div class="label">Vigor Promedio</div>
-      <div id="txt-vigor" class="value">0.74</div>
-      <div id="txt-vigor-delta" class="delta up">▲ 4% vs mes anterior</div>
-    </div>
-    <div class="card">
-      <div class="label">Zona de Estrés</div>
-      <div id="txt-estres" class="value">1.2 Ha</div>
-      <div id="txt-riego" class="delta down">Estatus estable</div>
-    </div>
-    <div class="card">
-      <div class="label">Precisión GCP</div>
-      <div class="value">1.4 cm</div>
-      <div class="delta up" style="color:var(--vigor-bright)">Flujo PPK Estático</div>
-    </div>
-  </div>
-
-  <!-- Contenedores Gráficos -->
-  <div class="main-grid">
-    <!-- Panel del Mapa Local -->
-    <div class="panel">
-      <h2>Visor de Ortofoto Interactiva</h2>
-      <div id="map"></div>
-      
-      <!-- Línea del tiempo de vuelos vinculada -->
-      <div class="map-timeline-container">
-        <div class="timeline-label">Historial de vuelos (Lotes XYZ Local)</div>
-        <div id="timeline-vuelos" class="map-timeline">
-          <!-- Los botones se inyectan automáticamente desde JavaScript -->
+  <!-- ================= MAPA ================= -->
+  <section class="map-card" aria-labelledby="map-title">
+    <div class="map-head">
+      <div>
+        <p class="kicker">Visor geoespacial</p>
+        <h2 id="map-title">Parcela</h2>
+      </div>
+      <div class="map-tools">
+        <div class="seg" role="group" aria-label="Capa del mapa">
+          <button type="button" data-mode="orto" aria-pressed="true">Ortofoto</button>
+          <button type="button" data-mode="vari" aria-pressed="false">VARI</button>
+          <button type="button" data-mode="sat" aria-pressed="false">Satélite</button>
         </div>
-      </div>
-
-      <div class="legend">
-        <span>Estrés Crítico</span><div class="bar"></div><span>Vigor Óptimo</span>
+        <button class="ghost-btn" id="btn-compare" type="button" aria-pressed="false" disabled>⇄ Comparar</button>
       </div>
     </div>
 
-    <!-- Panel de Gráfica de Negocio -->
-    <div class="panel">
-      <h2>Historial de Rendimiento y Análisis de Mercado</h2>
-      <div style="position: relative; width:100%; height:320px;">
-        <canvas id="graficaVigor"></canvas>
-      </div>
+    <div class="map-shell">
+      <div id="map" role="application" aria-label="Mapa de la parcela"></div>
+      <div id="map-fallback" hidden><img id="fallback-img" alt="Ortofoto de la parcela"></div>
+      <div class="map-loader hidden" id="map-loader"><span class="spin" aria-hidden="true"></span><span>Cargando imagen…</span></div>
+      <div class="map-badge" id="map-badge">—</div>
     </div>
+
+    <div class="flight-nav" id="flight-nav">
+      <button class="nav-btn" id="flight-prev" type="button" aria-label="Vuelo anterior">◀</button>
+      <div class="nav-mid">
+        <span class="nav-date" id="nav-date">—</span>
+        <span class="nav-pos" id="nav-pos">—</span>
+      </div>
+      <button class="nav-btn" id="flight-next" type="button" aria-label="Vuelo siguiente">▶</button>
+    </div>
+
+    <div class="compare-box" id="compare-box" hidden>
+      <div class="compare-labels">
+        <span>Anterior · <b id="cmp-prev">—</b></span>
+        <span>Actual · <b id="cmp-cur">—</b></span>
+      </div>
+      <label class="sr-only" for="blend">Mezcla entre el vuelo anterior y el actual</label>
+      <input type="range" class="blend" id="blend" min="0" max="100" value="65">
+    </div>
+
+    <div class="legend-row" id="legend-row">
+      <span id="legend-lo">−0.10</span>
+      <div class="bar" aria-hidden="true"></div>
+      <span id="legend-hi">0.50</span>
+    </div>
+    <p class="legend-note" id="legend-note">—</p>
+
+    <div class="timeline-wrap">
+      <div class="timeline-label">Historial de vuelos · toca una fecha</div>
+      <div class="timeline" id="timeline"></div>
+    </div>
+
+    <div class="downloads">
+      <a class="dl-link" id="dl-orto" href="#" target="_blank" rel="noopener">⬇ Ortofoto PNG</a>
+      <a class="dl-link" id="dl-vari" href="#" target="_blank" rel="noopener">⬇ Mapa VARI PNG</a>
+      <button class="dl-link" id="dl-csv" type="button">⬇ CSV del historial</button>
+    </div>
+  </section>
+
+  <!-- ================= KPIs ================= -->
+  <section class="kpis" id="kpis" aria-label="Indicadores del vuelo seleccionado">
+    <article class="kpi" style="--k:var(--accent)">
+      <p class="kpi-label">Superficie del vuelo</p>
+      <p class="kpi-value" id="k-area">—</p>
+      <p class="kpi-foot" id="k-area-foot">—</p>
+    </article>
+    <article class="kpi" style="--k:var(--accent-2)">
+      <p class="kpi-label">Vigor VARI medio</p>
+      <p class="kpi-value" id="k-vigor">—</p>
+      <p class="kpi-foot" id="k-vigor-foot">—</p>
+    </article>
+    <article class="kpi" style="--k:var(--amber)">
+      <p class="kpi-label">Superficie bajo umbral</p>
+      <p class="kpi-value" id="k-stress">—</p>
+      <p class="kpi-foot" id="k-stress-foot">—</p>
+    </article>
+    <article class="kpi" style="--k:var(--blue)">
+      <p class="kpi-label">Variabilidad (σ)</p>
+      <p class="kpi-value" id="k-std">—</p>
+      <p class="kpi-foot" id="k-std-foot">—</p>
+    </article>
+  </section>
+
+  <!-- ================= GRÁFICAS ================= -->
+  <div class="grid-2">
+    <section class="card" aria-labelledby="ch1-title">
+      <div class="card-head">
+        <h2 id="ch1-title">Evolución del vigor</h2>
+        <span class="hint">VARI medio por vuelo</span>
+      </div>
+      <div class="chart-wrap"><canvas id="chart-vigor" aria-label="Gráfica de evolución del VARI medio"></canvas></div>
+    </section>
+    <section class="card" aria-labelledby="ch2-title">
+      <div class="card-head">
+        <h2 id="ch2-title">Superficie bajo umbral</h2>
+        <span class="hint" id="ch2-hint">% del área</span>
+      </div>
+      <div class="chart-wrap"><canvas id="chart-stress" aria-label="Gráfica de superficie bajo el umbral"></canvas></div>
+    </section>
   </div>
 
-  <!-- Bitácora Comercial de Rotaciones -->
-  <div class="panel">
-    <h2>Evolución de Mercado y Notas Operativas de Rendimiento</h2>
-    <div class="compare-grid" style="margin-top:12px;">
-      <div class="panel" style="background:var(--surface-2); border:none;">
-        <h3 style="margin:0 0 8px; font-size:13px; color:var(--vigor-bright); font-family:'IBM Plex Mono',monospace; text-transform:uppercase;">Viabilidad Comercial</h3>
-        <p id="nota-comercial" style="margin:0; font-size:13.5px; color:var(--text-muted); line-height:1.6;"></p>
-      </div>
-      <div class="panel" style="background:var(--surface-2); border:none;">
-        <h3 style="margin:0 0 8px; font-size:13px; color:var(--stress); font-family:'IBM Plex Mono',monospace; text-transform:uppercase;">Estrategia de Rotación y Entradas</h3>
-        <p id="nota-proyeccion" style="margin:0; font-size:13.5px; color:var(--text-muted); line-height:1.6;"></p>
-      </div>
+  <!-- ================= ANÁLISIS ================= -->
+  <section class="card" style="margin-top:14px" aria-labelledby="an-title">
+    <div class="card-head">
+      <h2 id="an-title">Análisis del vuelo seleccionado</h2>
+      <span class="hint" id="analysis-date">—</span>
     </div>
+    <div class="verdict" id="verdict">
+      <span class="vdot" aria-hidden="true"></span>
+      <div><strong id="verdict-title">—</strong><p id="verdict-text">—</p></div>
+    </div>
+    <div class="delta-grid" id="delta-grid"></div>
+    <ul class="findings" id="findings"></ul>
+  </section>
+
+  <!-- ================= HISTORIAL ================= -->
+  <section class="card" style="margin-top:14px" aria-labelledby="hi-title">
+    <div class="card-head">
+      <h2 id="hi-title">Historial de vuelos</h2>
+      <span class="hint" id="history-count">—</span>
+    </div>
+    <div class="history" id="history"></div>
+  </section>
+
+  <footer class="foot">
+    <span>Fuente: <code>metadata.json</code> · ortofotos UAV procesadas con <code>procesar_lote.py</code>.</span>
+    <span>Índice VARI = (G − R) / (G + R − B). Lectura relativa de vigor, no sustituye muestreo de campo.</span>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<div class="fatal" id="fatal" hidden>
+  <div class="fatal-card">
+    <p class="eyebrow">No se pudieron cargar los datos</p>
+    <h2>El dashboard no encontró <code>metadata.json</code></h2>
+    <p id="fatal-msg">Revisa que el archivo esté en la misma carpeta que este <code>index.html</code>.</p>
+    <p>Si abriste el archivo con doble clic (<code>file://</code>), el navegador bloquea la lectura de archivos locales. Sírvelo con un servidor local o publícalo en GitHub Pages.</p>
+    <button type="button" onclick="location.reload()">Reintentar</button>
   </div>
 </div>
 
 <script>
-  // BASE DE DATOS LOCAL
-  const baseDatos = {
-    este: {
-      coords: [-99.008710, 20.26630],
-      area: "21.2 Ha", cultivo: "Variedad: Alfalfa Premium", vigor: "0.74", vigorDelta: "▲ 4% vs corte anterior",
-      estres: "1.2 Ha", riego: "⚠️ Programar pivote sector Norte", riegoColor: "var(--stress)",
-      graficaLabels: ['Corte 1', 'Corte 2', 'Corte 3', 'Monitoreo Actual'],
-      graficaValores: [0.65, 0.68, 0.71, 0.74],
-      comercial: "La alfalfa en este cuadrante mantiene un precio estable por tonelada en la región. Se aconseja programar el corte en 5 días antes de la floración para asegurar el porcentaje óptimo de proteína demandado.",
-      proyeccion: "Los datos de precisión del Emlid Reach confirman que las delimitaciones de canales son óptimas. Se proyecta mantener el suelo descansando con leguminosas antes de la rotación invernal.",
-      vuelos: [
-        { id: "v1_este", nombre: "Vuelo Actual (Agosto)", url: "./tiles_salida/vuelo_este_agosto/{z}/{x}/{y}.png" },
-        { id: "v2_este", nombre: "Vuelo Anterior (Julio)", url: "./tiles_salida/vuelo_este_julio/{z}/{x}/{y}.png" }
-      ]
-    },
-    oeste: {
-      coords: [-99.012200, 20.26630],
-      area: "21.3 Ha", cultivo: "Variedad: Maíz Forrajero", vigor: "0.61", vigorDelta: "▼ 3% vs mes anterior",
-      estres: "4.8 Ha", riego: "🚨 Alerta: Estrés hídrico severo", riegoColor: "var(--alert)",
-      graficaLabels: ['Emergencia', 'Vigor Inicial', 'Fase R3', 'Monitoreo Actual'],
-      graficaValores: [0.55, 0.64, 0.66, 0.61],
-      comercial: "El decaimiento del vigor en maíz afectará el tonelaje de silo proyectado si no se corrige el riego. El precio de garantía actual justifica la renta de equipo de bombeo adicional de inmediato.",
-      proyeccion: "Detección temprana de taponamiento de boquillas mediante el mapa RGB. La bitácora indica que la avena de relevo de la siguiente ventana estacional podría adelantarse para mitigar pérdidas.",
-      vuelos: [
-        { id: "v1_oeste", nombre: "Vuelo Reciente (Maíz)", url: "./tiles_salida/vuelo_oeste_agosto/{z}/{x}/{y}.png" },
-        { id: "v2_oeste", nombre: "Línea Base (Siembra)", url: "./tiles_salida/vuelo_oeste_siembra/{z}/{x}/{y}.png" }
-      ]
+(function () {
+  'use strict';
+
+  /* ============================================================
+     Constantes y utilidades
+     ============================================================ */
+  var MONTHS = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  var MONTHS_LONG = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  var CROP_LABEL = { ALFALFA:'Alfalfa', MAIZ:'Maíz', OTRO:'Otro' };
+  var CROP_COLOR = { ALFALFA:'#9bc46e', MAIZ:'#e5a64e', OTRO:'#82b4d6' };
+  var ESRI_TILES = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
+  var VARI_MIN = -0.10, VARI_MAX = 0.50;
+
+  function $(id) { return document.getElementById(id); }
+  function num(v) { var n = Number(v); return isFinite(n) ? n : null; }
+  function clamp(v, lo, hi) { return Math.min(hi, Math.max(lo, v)); }
+  function fmt(n, d) { return (n === null || n === undefined || !isFinite(n)) ? '—' : Number(n).toFixed(d === undefined ? 2 : d); }
+  function pctText(n, d) { return (n === null || !isFinite(n)) ? '—' : Number(n).toFixed(d === undefined ? 1 : d) + '%'; }
+  function cropLabel(c) { return CROP_LABEL[c] || (c ? c.charAt(0) + c.slice(1).toLowerCase() : '—'); }
+  function cropColor(c) { return CROP_COLOR[c] || 'var(--accent)'; }
+  function parseDate(iso) {
+    var p = String(iso || '').split('-').map(Number);
+    return { y: p[0], m: p[1], d: p[2], valid: p.length === 3 && !!p[0] };
+  }
+  function shortDate(iso) {
+    var d = parseDate(iso);
+    return d.valid ? d.d + ' ' + MONTHS[d.m - 1] : iso;
+  }
+  function longDate(iso) {
+    var d = parseDate(iso);
+    return d.valid ? d.d + ' ' + MONTHS_LONG[d.m - 1] + ' ' + d.y : iso;
+  }
+  function monthYear(iso) {
+    var d = parseDate(iso);
+    return d.valid ? MONTHS[d.m - 1] + ' ' + String(d.y).slice(2) : iso;
+  }
+
+  /* ---------- Proyección UTM -> geográfica (WGS84) ---------- */
+  function crsUtm(crs) {
+    var m = /EPSG\s*:\s*(\d+)/i.exec(String(crs || ''));
+    if (!m) return null;
+    var code = Number(m[1]);
+    if (code >= 32601 && code <= 32660) return { zone: code - 32600, north: true };
+    if (code >= 32701 && code <= 32760) return { zone: code - 32700, north: false };
+    return null;
+  }
+  function utmToLonLat(easting, northing, utm) {
+    var a = 6378137.0;
+    var ecc = 0.08181919084262;
+    var ecc2 = ecc * ecc;
+    var ep2 = ecc2 / (1 - ecc2);
+    var k0 = 0.9996;
+    var x = easting - 500000.0;
+    var y = utm.north ? northing : northing - 10000000.0;
+    var lon0 = (utm.zone * 6 - 183) * Math.PI / 180;
+
+    var M = y / k0;
+    var mu = M / (a * (1 - ecc2 / 4 - 3 * ecc2 * ecc2 / 64 - 5 * ecc2 * ecc2 * ecc2 / 256));
+    var e1 = (1 - Math.sqrt(1 - ecc2)) / (1 + Math.sqrt(1 - ecc2));
+    var phi1 = mu
+      + (3 * e1 / 2 - 27 * Math.pow(e1, 3) / 32) * Math.sin(2 * mu)
+      + (21 * e1 * e1 / 16 - 55 * Math.pow(e1, 4) / 32) * Math.sin(4 * mu)
+      + (151 * Math.pow(e1, 3) / 96) * Math.sin(6 * mu)
+      + (1097 * Math.pow(e1, 4) / 512) * Math.sin(8 * mu);
+
+    var sinPhi = Math.sin(phi1), cosPhi = Math.cos(phi1), tanPhi = Math.tan(phi1);
+    var N1 = a / Math.sqrt(1 - ecc2 * sinPhi * sinPhi);
+    var T1 = tanPhi * tanPhi;
+    var C1 = ep2 * cosPhi * cosPhi;
+    var R1 = a * (1 - ecc2) / Math.pow(1 - ecc2 * sinPhi * sinPhi, 1.5);
+    var D = x / (N1 * k0);
+
+    var lat = phi1 - (N1 * tanPhi / R1) * (
+      D * D / 2
+      - (5 + 3 * T1 + 10 * C1 - 4 * C1 * C1 - 9 * ep2) * Math.pow(D, 4) / 24
+      + (61 + 90 * T1 + 298 * C1 + 45 * T1 * T1 - 252 * ep2 - 3 * C1 * C1) * Math.pow(D, 6) / 720
+    );
+    var lon = lon0 + (
+      D
+      - (1 + 2 * T1 + C1) * Math.pow(D, 3) / 6
+      + (5 - 2 * C1 + 28 * T1 - 3 * C1 * C1 + 8 * ep2 + 24 * T1 * T1) * Math.pow(D, 5) / 120
+    ) / cosPhi;
+
+    return [lon * 180 / Math.PI, lat * 180 / Math.PI];
+  }
+
+  function boundsToGeo(bounds, crs) {
+    if (!bounds || bounds.length !== 4) return null;
+    var b = bounds.map(Number);
+    if (b.some(function (v) { return !isFinite(v); })) return null;
+    var utm = crsUtm(crs);
+    var west, south, east, north, corners;
+    if (utm) {
+      var sw = utmToLonLat(b[0], b[1], utm);
+      var se = utmToLonLat(b[2], b[1], utm);
+      var ne = utmToLonLat(b[2], b[3], utm);
+      var nw = utmToLonLat(b[0], b[3], utm);
+      var lons = [sw[0], se[0], ne[0], nw[0]];
+      var lats = [sw[1], se[1], ne[1], nw[1]];
+      west = Math.min.apply(null, lons); east = Math.max.apply(null, lons);
+      south = Math.min.apply(null, lats); north = Math.max.apply(null, lats);
+      // MapLibre: noroeste, noreste, sureste, suroeste
+      corners = [nw, ne, se, sw];
+    } else {
+      west = Math.min(b[0], b[2]); east = Math.max(b[0], b[2]);
+      south = Math.min(b[1], b[3]); north = Math.max(b[1], b[3]);
+      corners = [[west, north], [east, north], [east, south], [west, south]];
     }
+    return { west: west, south: south, east: east, north: north, corners: corners };
+  }
+
+  function areaHa(bounds, crs) {
+    var b = (bounds || []).map(Number);
+    if (b.length !== 4 || b.some(function (v) { return !isFinite(v); })) return null;
+    var utm = crsUtm(crs);
+    if (utm) {
+      return Math.abs((b[2] - b[0]) * (b[3] - b[1])) / 10000;
+    }
+    var latMid = ((b[1] + b[3]) / 2) * Math.PI / 180;
+    var dx = Math.abs(b[2] - b[0]) * 111320 * Math.cos(latMid);
+    var dy = Math.abs(b[3] - b[1]) * 110540;
+    return (dx * dy) / 10000;
+  }
+
+  /* ============================================================
+     Estado
+     ============================================================ */
+  var state = {
+    data: {}, keys: [], parcel: 'este', index: 0, mode: 'orto',
+    compare: false, blend: 65,
+    map: null, mapReady: false, mapFailed: false, mapPending: false,
+    charts: { vigor: null, stress: null },
+    loaderTimer: null
   };
 
-  
-let parcelaActiva = 'este';
-let vueloActivoId = baseDatos.este.vuelos[0].id;
-let mapa, grafica;
+  /* ============================================================
+     Normalización de metadata.json
+     - Deduplica vuelos con la misma fecha (ORTO + VARI del mismo día).
+     - Prefiere la entrada que trae ortofoto RGB y sus estadísticas.
+     - Georreferencia bounds (UTM o 4326) y calcula área.
+     ============================================================ */
+  function normalizeParcel(rawParcel, key) {
+    var rawFlights = (rawParcel && rawParcel.vuelos) || [];
+    var byDate = {};
 
-// Inicializar Mapa Abierto de MapLibre utilizando un fondo satelital base gratuito
-mapa = new maplibregl.Map({
-    container: 'map',
-    style: 'maplibre.org', // Mapa base neutro por seguridad
-    center: baseDatos.este.coords,
-    zoom: 16,
-    maxZoom: 20,
-    minZoom: 14
-});
+    rawFlights.slice()
+      .filter(function (v) { return v && v.fecha; })
+      .sort(function (a, b) { return String(a.fecha).localeCompare(String(b.fecha)); })
+      .forEach(function (v) {
+        var cur = byDate[v.fecha];
+        if (!cur) { byDate[v.fecha] = Object.assign({}, v); return; }
+        var curHasOrto = !!cur.png_orto;
+        var newHasOrto = !!v.png_orto;
+        var winner = (newHasOrto && !curHasOrto) ? v : cur;
+        var other = (winner === v) ? cur : v;
+        var merged = Object.assign({}, winner);
+        merged.png_orto = winner.png_orto || other.png_orto || null;
+        if (!merged.png && other.png) merged.png = other.png;
+        // Si el ganador no trae estadísticas válidas, completar desde el otro.
+        ['vari_promedio','vari_min','vari_max','vari_std','pct_area_bajo_umbral','cultivo','bounds','crs']
+          .forEach(function (f) {
+            if ((merged[f] === null || merged[f] === undefined) && other[f] !== null && other[f] !== undefined) merged[f] = other[f];
+          });
+        byDate[v.fecha] = merged;
+      });
 
-// Estilo Satelital Alternativo de OpenStreetMap/Esri para no depender de llaves de Maptiler
-mapa.setStyle({
-    "version": 8,
-    "sources": {
-        "raster-tiles": {
-            "type": "raster",
-            "tiles": ["arcgisonline.com{z}/{y}/{x}"],
-            "tileSize": 256,
-            "attribution": "Tiles © Esri"
-        }
-    },
-    "layers": [{
-        "id": "simple-tiles",
-        "type": "raster",
-        "source": "raster-tiles",
-        "minzoom": 0,
-        "maxzoom": 20
-    }]
-});
+    var flights = Object.keys(byDate).sort().map(function (fecha) {
+      var v = byDate[fecha];
+      var geo = boundsToGeo(v.bounds, v.crs);
+      var mean = num(v.vari_promedio);
+      var pct = num(v.pct_area_bajo_umbral);
+      var sd = num(v.vari_std);
+      var min = num(v.vari_min), max = num(v.vari_max);
+      return {
+        fecha: fecha,
+        cultivo: (v.cultivo || 'OTRO').toUpperCase(),
+        png: v.png || null,
+        png_orto: v.png_orto || null,
+        crs: v.crs || null,
+        bounds: v.bounds,
+        geo: geo,
+        areaHa: areaHa(v.bounds, v.crs),
+        mean: mean, min: min, max: max, std: sd,
+        pct: pct === null ? null : clamp(pct, 0, 100),
+        center: geo ? [(geo.west + geo.east) / 2, (geo.south + geo.north) / 2] : null
+      };
+    }).filter(function (f) { return f.geo && (f.png || f.png_orto); });
 
-mapa.addControl(new maplibregl.NavigationControl());
+    return {
+      key: key,
+      nombre: (rawParcel && rawParcel.nombre) || ('Parcela ' + key),
+      threshold: num(rawParcel && rawParcel.umbral_global),
+      flights: flights
+    };
+  }
 
-// Carga inicial de datos
-mapa.on('load', () => {
-    renderizarControlesLíneaTiempo();
-    actualizarCapaOrtofoto();
-});
+  function normalize(raw) {
+    var data = {}, keys = [];
+    Object.keys(raw || {}).forEach(function (k) {
+      if (!raw[k] || !Array.isArray(raw[k].vuelos)) return;
+      var p = normalizeParcel(raw[k], k);
+      if (!p.flights.length) return;
+      data[k] = p; keys.push(k);
+    });
+    // Orden deseado: este, oeste, resto
+    keys.sort(function (a, b) {
+      var order = { este: 0, oeste: 1 };
+      var oa = order[a] === undefined ? 9 : order[a];
+      var ob = order[b] === undefined ? 9 : order[b];
+      return oa - ob || a.localeCompare(b);
+    });
+    return { data: data, keys: keys };
+  }
 
-// Lógica para actualizar e inyectar tus capas XYZ del dron con animación de transición suave
-function actualizarCapaOrtofoto() {
-    const listaVuelos = baseDatos[parcelaActiva].vuelos;
-    const vueloSeleccionado = listaVuelos.find(v => v.id === vueloActivoId) || listaVuelos[0];
+  /* ============================================================
+     Accesos
+     ============================================================ */
+  function currentParcel() { return state.data[state.parcel]; }
+  function currentFlight() { var p = currentParcel(); return p ? p.flights[state.index] : null; }
+  function urlFor(flight, mode) {
+    if (!flight) return '';
+    if (mode === 'vari') return './' + (flight.png || flight.png_orto);
+    return './' + (flight.png_orto || flight.png);
+  }
 
-    // Transición suave: Si la capa ya existe, bajamos opacidad antes de cambiarla
-    if (mapa.getLayer('capa-ortofoto-local')) {
-        mapa.setPaintProperty('capa-ortofoto-local', 'raster-opacity', 0);
-        setTimeout(() => {
-            if (mapa.getLayer('capa-ortofoto-local')) mapa.removeLayer('capa-ortofoto-local');
-            if (mapa.getSource('fuente-ortofoto-local')) mapa.removeSource('fuente-ortofoto-local');
-            inyectarNuevaCapa(vueloSeleccionado.url);
-        }, 150); // Tiempo de desvanecimiento
-    } else {
-        inyectarNuevaCapa(vueloSeleccionado.url);
+  /* ============================================================
+     Mapa
+     ============================================================ */
+  function hasWebGL() {
+    try {
+      var c = document.createElement('canvas');
+      return !!(window.WebGLRenderingContext && (c.getContext('webgl') || c.getContext('experimental-webgl')));
+    } catch (e) { return false; }
+  }
+
+  function initMap() {
+    var f = currentFlight();
+    if (!f) return;
+
+    if (typeof window.maplibregl === 'undefined' || !hasWebGL()) {
+      state.mapFailed = true;
+      var mapEl = $('map');
+      if (mapEl) mapEl.hidden = true;
+      $('map-fallback').hidden = false;
+      return;
     }
-}
 
-function inyectarNuevaCapa(urlTiles) {
-    mapa.addSource('fuente-ortofoto-local', {
-        type: 'raster',
-        tiles: [urlTiles],
-        tileSize: 256
+    try {
+      state.map = new maplibregl.Map({
+        container: 'map',
+        style: {
+          version: 8,
+          sources: {
+            sat: {
+              type: 'raster',
+              tiles: [ESRI_TILES],
+              tileSize: 256,
+              maxzoom: 19,
+              attribution: '© Esri, Maxar, Earthstar Geographics'
+            }
+          },
+          layers: [{ id: 'sat', type: 'raster', source: 'sat', paint: { 'raster-opacity': 1 } }]
+        },
+        center: f.center || [-99.01, 20.266],
+        zoom: 15.5,
+        minZoom: 11,
+        maxZoom: 20,
+        maxPitch: 0,
+        dragRotate: false,
+        pitchWithRotate: false,
+        attributionControl: false
+      });
+
+      state.map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
+      state.map.addControl(new maplibregl.AttributionControl({ compact: true }));
+
+      state.map.on('load', function () {
+        state.mapReady = true;
+        renderMap();
+        if (state.mapPending) { state.mapPending = false; fitTo(currentFlight(), 0); }
+      });
+
+      state.map.on('sourcedata', function (e) {
+        if (e && e.sourceId === 'img-main' && e.isSourceLoaded) hideMapLoader();
+        if (e && e.sourceId === 'img-prev' && e.isSourceLoaded) { /* espera la principal */ }
+      });
+
+      state.map.on('error', function (e) {
+        // Errores de teselas del satélite no deben romper la app.
+        if (e && e.error) console.warn('Mapa:', e.error.message || e.error);
+      });
+    } catch (err) {
+      console.warn('MapLibre no disponible:', err);
+      state.mapFailed = true;
+      $('map').hidden = true;
+      $('map-fallback').hidden = false;
+    }
+  }
+
+  function removeLayerAndSource(id) {
+    if (!state.map) return;
+    try { if (state.map.getLayer(id)) state.map.removeLayer(id); } catch (e) {}
+    try { if (state.map.getSource(id)) state.map.removeSource(id); } catch (e) {}
+  }
+
+  function addImageLayer(id, url, corners, opacity) {
+    if (!state.map || !url || !corners) return;
+    removeLayerAndSource(id);
+    state.map.addSource(id, { type: 'image', url: url, coordinates: corners });
+    state.map.addLayer({
+      id: id,
+      type: 'raster',
+      source: id,
+      paint: {
+        'raster-opacity': opacity,
+        'raster-opacity-transition': { duration: 220, delay: 0 }
+      }
     });
-    mapa.addLayer({
-        id: 'capa-ortofoto-local',
-        type: 'raster',
-        source: 'fuente-ortofoto-local',
-        paint: {
-            'raster-opacity': 0,
-            'raster-opacity-transition': { duration: 300 } // Efecto suave de Fade-In automático
+  }
+
+  function addOutline(flight) {
+    if (!state.map || !flight || !flight.geo) return;
+    var g = flight.geo;
+    var ring = [[g.west, g.north], [g.east, g.north], [g.east, g.south], [g.west, g.south], [g.west, g.north]];
+    removeLayerAndSource('parcel-outline');
+    state.map.addSource('parcel-outline', {
+      type: 'geojson',
+      data: { type: 'Feature', geometry: { type: 'Polygon', coordinates: [ring] }, properties: {} }
+    });
+    state.map.addLayer({
+      id: 'parcel-outline',
+      type: 'line',
+      source: 'parcel-outline',
+      paint: { 'line-color': '#c9e6a0', 'line-width': 1.6, 'line-opacity': .75, 'line-dasharray': [2, 2] }
+    });
+  }
+
+  function showMapLoader() {
+    var el = $('map-loader');
+    if (!el) return;
+    el.classList.remove('hidden');
+    clearTimeout(state.loaderTimer);
+    state.loaderTimer = setTimeout(hideMapLoader, 12000);
+  }
+  function hideMapLoader() {
+    var el = $('map-loader');
+    if (el) el.classList.add('hidden');
+    clearTimeout(state.loaderTimer);
+  }
+
+  function renderFallback(flight) {
+    var img = $('fallback-img');
+    if (!img || !flight) return;
+    var url = state.mode === 'vari'
+      ? './' + (flight.png || flight.png_orto)
+      : './' + (flight.png_orto || flight.png);
+    if (img.getAttribute('src') !== url) img.src = url;
+    img.alt = 'Ortofoto de ' + currentParcel().nombre + ' del ' + longDate(flight.fecha);
+    // En modo fallback no hay satélite: si se pide satélite, mostramos la ortofoto.
+  }
+
+  function renderMap(fitNow) {
+    var p = currentParcel(), f = currentFlight();
+    if (!p || !f) return;
+
+    var badge = $('map-badge');
+    var layerLabel = state.mode === 'vari' ? 'VARI' : (state.mode === 'sat' ? 'Satélite' : 'Ortofoto');
+
+    if (state.mapFailed || !state.map) {
+      renderFallback(f);
+      if (badge) badge.textContent = layerLabel + ' · ' + shortDate(f.fecha) + ' ' + parseDate(f.fecha).y;
+      return;
+    }
+    if (!state.mapReady) { state.mapPending = true; return; }
+
+    removeLayerAndSource('img-main');
+    removeLayerAndSource('img-prev');
+    removeLayerAndSource('parcel-outline');
+
+    if (state.mode === 'sat') {
+      if (badge) badge.textContent = 'Satélite · ' + shortDate(f.fecha) + ' ' + parseDate(f.fecha).y;
+      hideMapLoader();
+      if (fitNow) fitTo(f, 0);
+      return;
+    }
+
+    var canCompare = state.compare && state.index > 0;
+    if (canCompare) {
+      var prev = p.flights[state.index - 1];
+      addImageLayer('img-prev', urlFor(prev, state.mode), prev.geo.corners, 1);
+      addImageLayer('img-main', urlFor(f, state.mode), f.geo.corners, state.blend / 100);
+    } else {
+      addImageLayer('img-main', urlFor(f, state.mode), f.geo.corners, 1);
+    }
+
+    addOutline(f);
+
+    if (badge) badge.textContent = layerLabel + ' · ' + shortDate(f.fecha) + ' ' + parseDate(f.fecha).y;
+    showMapLoader();
+
+    if (fitNow) fitTo(f, 0);
+  }
+
+  function fitTo(flight, duration) {
+    if (!state.map || !state.mapReady || !flight || !flight.geo) return;
+    var g = flight.geo;
+    try {
+      state.map.fitBounds([[g.west, g.south], [g.east, g.north]], {
+        padding: { top: 28, right: 28, bottom: 28, left: 28 },
+        duration: duration === undefined ? 650 : duration,
+        maxZoom: 18
+      });
+    } catch (e) {}
+  }
+
+  /* ============================================================
+     Render de interfaz
+     ============================================================ */
+  function renderParcelTabs() {
+    var el = $('parcel-tabs');
+    if (!el) return;
+    el.innerHTML = '';
+    state.keys.forEach(function (k) {
+      var p = state.data[k];
+      var last = p.flights[p.flights.length - 1];
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'parcel-btn';
+      b.setAttribute('aria-pressed', k === state.parcel ? 'true' : 'false');
+      b.dataset.parcel = k;
+      b.innerHTML = '<span class="pb-title">' + escapeHtml(p.nombre) + '</span>' +
+                    '<span class="pb-sub">' + escapeHtml(cropLabel(last.cultivo)) + ' · ' + escapeHtml(monthYear(last.fecha)) + '</span>';
+      b.addEventListener('click', function () { selectParcel(k); });
+      el.appendChild(b);
+    });
+  }
+
+  function renderTimeline() {
+    var p = currentParcel();
+    var el = $('timeline');
+    if (!el || !p) return;
+    el.innerHTML = '';
+    p.flights.forEach(function (f, i) {
+      var d = parseDate(f.fecha);
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'tchip';
+      b.setAttribute('aria-pressed', i === state.index ? 'true' : 'false');
+      b.setAttribute('aria-label', 'Vuelo del ' + longDate(f.fecha) + ', ' + cropLabel(f.cultivo));
+      b.dataset.i = String(i);
+      b.innerHTML = '<span class="tc-d">' + (d.valid ? d.d : '?') + '</span>' +
+                    '<span class="tc-m">' + (d.valid ? MONTHS[d.m - 1] + ' ' + String(d.y).slice(2) : f.fecha) + '</span>' +
+                    '<span class="tc-crop" style="--c:' + cropColor(f.cultivo) + '"></span>';
+      b.addEventListener('click', function () { selectFlight(i); });
+      el.appendChild(b);
+    });
+    // Centrar el chip activo sin mover la página
+    var active = el.querySelector('[aria-pressed="true"]');
+    if (active) {
+      requestAnimationFrame(function () {
+        var target = active.offsetLeft - (el.clientWidth / 2) + (active.offsetWidth / 2);
+        el.scrollTo({ left: Math.max(0, target), behavior: 'smooth' });
+      });
+    }
+  }
+
+  function renderNav() {
+    var p = currentParcel(); if (!p) return;
+    var f = currentFlight();
+    $('nav-date').textContent = longDate(f.fecha);
+    $('nav-pos').textContent = (state.index + 1) + ' / ' + p.flights.length + ' · ' + cropLabel(f.cultivo);
+    $('flight-prev').disabled = state.index <= 0;
+    $('flight-next').disabled = state.index >= p.flights.length - 1;
+    $('map-title').textContent = p.nombre;
+
+    var compareBtn = $('btn-compare');
+    var canCompare = state.index > 0 && state.mode !== 'sat';
+    compareBtn.disabled = !canCompare;
+    compareBtn.setAttribute('aria-pressed', state.compare && canCompare ? 'true' : 'false');
+    if (!canCompare && state.compare) state.compare = false;
+
+    var box = $('compare-box');
+    box.hidden = !(state.compare && canCompare);
+    if (state.compare && canCompare) {
+      var prev = p.flights[state.index - 1];
+      $('cmp-prev').textContent = shortDate(prev.fecha);
+      $('cmp-cur').textContent = shortDate(f.fecha);
+    }
+  }
+
+  function renderLegend() {
+    var isVari = state.mode === 'vari';
+    $('legend-row').style.display = isVari ? 'flex' : 'none';
+    $('legend-note').style.display = isVari ? 'block' : 'none';
+    if (!isVari) return;
+    var p = currentParcel();
+    var th = p && p.threshold !== null ? p.threshold : 0.2;
+    $('legend-lo').textContent = VARI_MIN.toFixed(2);
+    $('legend-hi').textContent = VARI_MAX.toFixed(2);
+    $('legend-note').textContent = 'Escala del índice VARI (rojo = menor vigor, verde = mayor). ' +
+      'Umbral de referencia de la parcela: ' + th.toFixed(2) + '.';
+  }
+
+  function renderKpis() {
+    var f = currentFlight(), p = currentParcel();
+    if (!f) return;
+    var prev = state.index > 0 ? p.flights[state.index - 1] : null;
+
+    $('k-area').innerHTML = fmt(f.areaHa, 1) + '<span class="unit">ha</span>';
+    $('k-area-foot').innerHTML = '<span class="pill">' + escapeHtml(cropLabel(f.cultivo)) + '</span> ' + escapeHtml(shortDate(f.fecha));
+
+    $('k-vigor').textContent = fmt(f.mean, 3);
+    $('k-vigor-foot').innerHTML = deltaInline(prev ? f.mean - prev.mean : null, 3, 'vs vuelo anterior', true);
+
+    var stressHa = (f.pct !== null && f.areaHa !== null) ? (f.pct / 100) * f.areaHa : null;
+    $('k-stress').innerHTML = fmt(stressHa, 1) + '<span class="unit">ha</span>';
+    var band = stressBand(f.pct);
+    $('k-stress-foot').innerHTML = '<span class="pill ' + band.cls + '">' + pctText(f.pct) + '</span> bajo umbral';
+
+    $('k-std').textContent = fmt(f.std, 3);
+    $('k-std-foot').textContent = 'Dispersión del índice en la parcela';
+  }
+
+  function deltaInline(delta, digits, suffix, higherIsBetter) {
+    if (delta === null || !isFinite(delta)) return '<span class="flat">Primer vuelo</span>';
+    var semi = Math.abs(delta) < Math.pow(10, -digits) / 2;
+    var cls = semi ? 'flat' : ((delta > 0) === !!higherIsBetter ? 'up' : 'down');
+    var arrow = semi ? '■' : (delta > 0 ? '▲' : '▼');
+    return '<span class="' + cls + '">' + arrow + ' ' + Math.abs(delta).toFixed(digits) + '</span> <span class="flat">' + suffix + '</span>';
+  }
+
+  function stressBand(pct) {
+    if (pct === null || !isFinite(pct)) return { label: 'Sin dato', cls: '' };
+    if (pct >= 90) return { label: 'Crítico', cls: 'bad' };
+    if (pct >= 75) return { label: 'Alto', cls: 'warn' };
+    if (pct >= 55) return { label: 'Moderado', cls: 'warn' };
+    return { label: 'Favorable', cls: '' };
+  }
+
+  function stressColor(pct) {
+    if (pct === null) return 'rgba(168,174,154,.35)';
+    if (pct >= 90) return 'rgba(222,107,82,.85)';
+    if (pct >= 75) return 'rgba(229,166,78,.85)';
+    if (pct >= 55) return 'rgba(198,196,90,.8)';
+    return 'rgba(155,196,110,.85)';
+  }
+
+  function renderAnalysis() {
+    var p = currentParcel(), f = currentFlight();
+    if (!f) return;
+    var prev = state.index > 0 ? p.flights[state.index - 1] : null;
+    var th = p.threshold !== null ? p.threshold : 0.2;
+    $('analysis-date').textContent = longDate(f.fecha) + ' · ' + cropLabel(f.cultivo);
+
+    var band = stressBand(f.pct);
+    var verdict = $('verdict');
+    verdict.className = 'verdict ' + band.cls;
+    $('verdict-title').textContent = band.label === 'Crítico' ? 'Estrés crítico' :
+      band.label === 'Alto' ? 'Estrés alto' : band.label === 'Moderado' ? 'Requiere vigilancia' : 'Condición favorable';
+
+    var vtxt = 'El ' + pctText(f.pct) + ' de la superficie está por debajo del umbral VARI de ' + th.toFixed(2) + '. ';
+    if (band.cls === 'bad') vtxt += 'Conviene revisar riego, compactación y presión de plagas en los sectores con menor respuesta.';
+    else if (band.cls === 'warn') vtxt += 'Hay sectores que pierden vigor: compara contra el vuelo anterior y valida en campo.';
+    else vtxt += 'La mayor parte de la parcela se mantiene por encima del umbral de referencia.';
+    $('verdict-text').textContent = vtxt;
+
+    var dMean = prev ? f.mean - prev.mean : null;
+    var dPct = prev ? f.pct - prev.pct : null;
+    var stressHa = (f.pct !== null && f.areaHa !== null) ? (f.pct / 100) * f.areaHa : null;
+    var prevStressHa = (prev && prev.pct !== null && prev.areaHa !== null) ? (prev.pct / 100) * prev.areaHa : null;
+    var dHa = (stressHa !== null && prevStressHa !== null) ? stressHa - prevStressHa : null;
+
+    var dg = $('delta-grid');
+    dg.innerHTML =
+      deltaCell('Δ VARI', dMean, 3, true, prev ? 'vs ' + shortDate(prev.fecha) : 'primer vuelo') +
+      deltaCell('Δ % estrés', dPct, 1, false, 'puntos porcentuales', ' pp') +
+      deltaCell('Δ hectáreas', dHa, 1, false, 'hectáreas bajo umbral', ' ha');
+
+    // Hallazgos
+    var items = [];
+    var n = p.flights.length;
+    var better = p.flights.filter(function (x) { return x.mean > f.mean; }).length;
+    var rank = better + 1;
+    var percentile = Math.round(((n - rank + 0.5) / n) * 100);
+    items.push('Vigor medio de <b>' + fmt(f.mean, 3) + '</b>: puesto <b>' + rank + ' de ' + n + '</b> en el historial de la parcela (percentil ' + percentile + ').');
+
+    if (prev) {
+      var rel = Math.abs(prev.mean) > 0.001 ? (dMean / Math.abs(prev.mean)) * 100 : null;
+      var dir = dMean >= 0 ? 'subió' : 'bajó';
+      var stressDir = dPct >= 0 ? 'aumentó' : 'disminuyó';
+      var relTxt = (rel !== null && Math.abs(rel) < 100) ? ' (' + Math.abs(rel).toFixed(0) + '%)' : '';
+      items.push('Respecto al vuelo del <b>' + longDate(prev.fecha) + '</b>, el VARI ' + dir + ' <b>' + Math.abs(dMean).toFixed(3) + '</b>' +
+        relTxt + ' y la superficie bajo umbral ' + stressDir + ' <b>' +
+        Math.abs(dPct).toFixed(1) + ' pp</b>.');
+    } else {
+      items.push('Es el <b>primer vuelo</b> del historial: sirve como línea base para medir cambios.');
+    }
+
+    if (prev && prev.cultivo !== f.cultivo) {
+      items.push('Cambio de cultivo detectado: <b>' + cropLabel(prev.cultivo) + ' → ' + cropLabel(f.cultivo) + '</b>. El índice de este vuelo inicia una nueva serie fenológica.');
+    }
+
+    var withDelta = [];
+    for (var i = 1; i < p.flights.length; i++) {
+      var a = p.flights[i - 1], b = p.flights[i];
+      if (a.mean !== null && b.mean !== null) withDelta.push({ from: a, to: b, d: b.mean - a.mean });
+    }
+    if (withDelta.length) {
+      var best = withDelta.reduce(function (x, y) { return y.d > x.d ? y : x; });
+      var worst = withDelta.reduce(function (x, y) { return y.d < x.d ? y : x; });
+      items.push('Mayor mejora registrada: <b>' + shortDate(best.from.fecha) + ' → ' + shortDate(best.to.fecha) + '</b> (' + (best.d >= 0 ? '+' : '') + best.d.toFixed(3) + ').');
+      items.push('Mayor caída registrada: <b>' + shortDate(worst.from.fecha) + ' → ' + shortDate(worst.to.fecha) + '</b> (' + (worst.d >= 0 ? '+' : '') + worst.d.toFixed(3) + ').');
+    }
+
+    var rotations = [];
+    for (var j = 1; j < p.flights.length; j++) {
+      if (p.flights[j].cultivo !== p.flights[j - 1].cultivo) {
+        rotations.push(shortDate(p.flights[j].fecha) + ': ' + cropLabel(p.flights[j - 1].cultivo) + ' → ' + cropLabel(p.flights[j].cultivo));
+      }
+    }
+    if (rotations.length && !(prev && prev.cultivo !== f.cultivo)) {
+      items.push('Rotaciones en el historial: <b>' + rotations.join(' · ') + '</b>.');
+    }
+
+    var ul = $('findings');
+    ul.innerHTML = items.map(function (t) { return '<li>' + t + '</li>'; }).join('') +
+      '<li class="caveat">Lectura basada únicamente en el índice VARI y en el umbral configurado. El cultivo se toma del nombre del archivo. No incluye precios de mercado ni sustituye un muestreo agronómico de campo.</li>';
+  }
+
+  function deltaCell(label, delta, digits, higherIsBetter, sub, suffix) {
+    var cls = 'flat', arrow = '■', value = '—';
+    if (delta !== null && isFinite(delta)) {
+      var semi = Math.abs(delta) < Math.pow(10, -digits) / 2;
+      cls = semi ? 'flat' : ((delta > 0) === !!higherIsBetter ? 'up' : 'down');
+      arrow = semi ? '■' : (delta > 0 ? '▲' : '▼');
+      value = arrow + ' ' + Math.abs(delta).toFixed(digits) + (suffix || '');
+    }
+    return '<div class="delta-cell"><div class="dl">' + label + '</div><div class="dv ' + cls + '">' + value + '</div><div class="ds">' + sub + '</div></div>';
+  }
+
+  function renderCharts() {
+    var p = currentParcel(); if (!p) return;
+    var labels = p.flights.map(function (f) { return shortDate(f.fecha); });
+    var means = p.flights.map(function (f) { return f.mean; });
+    var pcts = p.flights.map(function (f) { return f.pct; });
+    var threshold = p.threshold !== null ? p.threshold : 0.2;
+
+    if (typeof window.Chart === 'undefined') {
+      document.querySelectorAll('.chart-wrap').forEach(function (w) {
+        if (!w.querySelector('.chart-fallback')) {
+          var d = document.createElement('div');
+          d.className = 'chart-fallback';
+          d.style.cssText = 'display:flex;align-items:center;justify-content:center;height:100%;color:var(--faint);font-size:12px;text-align:center;padding:20px;';
+          d.textContent = 'La librería de gráficas no cargó. Los indicadores numéricos siguen disponibles.';
+          w.appendChild(d);
         }
-    });
-    // Encendemos la opacidad de golpe para disparar la animación CSS interna del mapa
-    setTimeout(() => {
-        if (mapa.getLayer('capa-ortofoto-local')) {
-            mapa.setPaintProperty('capa-ortofoto-local', 'raster-opacity', 0.90);
-        }
-    }, 50);
-}
+      });
+      return;
+    }
 
-// Generar dinámicamente los botones de fechas según los vuelos de cada parcela
-function renderizarControlesLíneaTiempo() {
-    const contenedor = document.getElementById('timeline-vuelos');
-    contenedor.innerHTML = ''; // Limpiar anteriores
-    const vuelos = baseDatos[parcelaActiva].vuelos;
-    vueloActivoId = vuelos[0].id; // Forzar el primero de la lista al cambiar de parcela
-    
-    vuelos.forEach((v, index) => {
-        const btn = document.createElement('button');
-        btn.className = `btn-date ${index === 0 ? 'active' : ''}`;
-        btn.innerText = v.nombre;
-        btn.onclick = (e) => {
-            document.querySelectorAll('.btn-date').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            vueloActivoId = v.id;
-            actualizarCapaOrtofoto();
-        };
-        contenedor.appendChild(btn);
-    });
-}
+    if (state.charts.vigor) { state.charts.vigor.destroy(); state.charts.vigor = null; }
+    if (state.charts.stress) { state.charts.stress.destroy(); state.charts.stress = null; }
 
-// Interactividad entre Parcelas
-function cambiarParcela(idParcela) {
-    parcelaActiva = idParcela;
-    // Cambiar estilización de la navegación principal
-    document.querySelectorAll('.btn-parcel').forEach(b => b.classList.remove('active'));
-    document.getElementById(`btn-${idParcela}`).classList.add('active');
+    var pointRadius = p.flights.map(function (f, i) { return i === state.index ? 5 : 2.5; });
+    var pointColor = p.flights.map(function (f, i) { return i === state.index ? '#c9e6a0' : '#9bc46e'; });
 
-    // Mover la cámara del mapa hacia el polígono correspondiente
-    mapa.flyTo({ center: baseDatos[idParcela].coords, zoom: 16, speed: 1.2 });
-
-    // Re-mapear datos en tarjetas informativas
-    const datos = baseDatos[idParcela];
-    document.getElementById('txt-area').innerText = datos.area;
-    document.getElementById('txt-cultivo').innerText = datos.cultivo;
-    document.getElementById('txt-vigor').innerText = datos.vigor;
-    document.getElementById('txt-vigor-delta').innerText = datos.vigorDelta;
-    document.getElementById('txt-estres').innerText = datos.estres;
-    
-    const divRiego = document.getElementById('txt-riego');
-    divRiego.innerText = datos.riego;
-    divRiego.style.color = datos.riegoColor;
-    
-    document.getElementById('nota-comercial').innerText = datos.comercial;
-    document.getElementById('nota-proyeccion').innerText = datos.proyeccion;
-
-    // Refrescar Línea de tiempo y capas del mapa
-    renderizarControlesLíneaTiempo();
-    actualizarCapaOrtofoto();
-
-    // Actualizar Gráfica Histórica de Línea
-    grafica.data.labels = datos.graficaLabels;
-    grafica.data.datasets[0].data = datos.graficaValores;
-    grafica.update();
-}
-
-// Inicializar Gráfica con Chart.js de forma Responsiva
-const ctx = document.getElementById('graficaVigor').getContext('2d');
-grafica = new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: baseDatos.este.graficaLabels,
-        datasets: [{
-            label: 'Evolución de Vigor (VARI)',
-            data: baseDatos.este.graficaValores,
-            borderColor: '#8FB86B',
-            backgroundColor: 'rgba(143, 184, 107, 0.08)',
+    state.charts.vigor = new Chart($('chart-vigor').getContext('2d'), {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: 'VARI medio',
+            data: means,
+            borderColor: '#9bc46e',
+            backgroundColor: 'rgba(155,196,110,.10)',
             borderWidth: 2,
-            tension: 0.25,
+            tension: .28,
             fill: true,
-            pointBackgroundColor: '#8FB86B',
-            pointRadius: 4
-        }]
-    },
-    options: {
+            spanGaps: true,
+            pointBackgroundColor: pointColor,
+            pointBorderColor: pointColor,
+            pointRadius: pointRadius,
+            pointHoverRadius: 6
+          },
+          {
+            label: 'Umbral ' + threshold.toFixed(2),
+            data: p.flights.map(function () { return threshold; }),
+            borderColor: 'rgba(168,174,154,.45)',
+            borderWidth: 1,
+            borderDash: [5, 5],
+            pointRadius: 0,
+            pointHoverRadius: 0,
+            fill: false
+          }
+        ]
+      },
+      options: {
         responsive: true,
         maintainAspectRatio: false,
-        plugins: { legend: { display: false } },
-        scales: {
-            y: {
-                grid: { color: '#3D3A2C' },
-                ticks: { color: '#9A9382', font: { family: 'IBM Plex Mono' } },
-                min: 0.4,
-                max: 0.9
-            },
-            x: {
-                grid: { color: '#3D3A2C' },
-                ticks: { color: '#9A9382', font: { family: 'IBM Plex Mono', size: 10 } }
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: '#232a19', borderColor: '#343b29', borderWidth: 1,
+            titleColor: '#f2eee1', bodyColor: '#a8ae9a', padding: 10, cornerRadius: 8,
+            callbacks: {
+              label: function (c) {
+                if (c.datasetIndex === 1) return 'Umbral: ' + threshold.toFixed(2);
+                return 'VARI medio: ' + (c.parsed.y === null ? '—' : c.parsed.y.toFixed(3));
+              }
             }
+          }
+        },
+        scales: {
+          x: { grid: { color: 'rgba(52,59,41,.45)' }, ticks: { color: '#7f8772', font: { family: 'IBM Plex Mono', size: 9 }, maxTicksLimit: 6, maxRotation: 0 }, border: { color: '#343b29' } },
+          y: { grid: { color: 'rgba(52,59,41,.45)' }, ticks: { color: '#7f8772', font: { family: 'IBM Plex Mono', size: 9 }, callback: function (v) { return Number(v).toFixed(2); } }, border: { color: '#343b29' }, suggestedMin: -0.1, suggestedMax: 0.3 }
         }
-    }
-});
+      }
+    });
 
-// Disparador inicial de textos informativos
-document.getElementById('nota-comercial').innerText = baseDatos.este.comercial;
-document.getElementById('nota-proyeccion').innerText = baseDatos.este.proyeccion;
+    state.charts.stress = new Chart($('chart-stress').getContext('2d'), {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: '% bajo umbral',
+          data: pcts,
+          backgroundColor: p.flights.map(function (f, i) { return i === state.index ? '#c9e6a0' : stressColor(f.pct); }),
+          borderRadius: 4,
+          borderSkipped: false,
+          maxBarThickness: 26
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: '#232a19', borderColor: '#343b29', borderWidth: 1,
+            titleColor: '#f2eee1', bodyColor: '#a8ae9a', padding: 10, cornerRadius: 8,
+            callbacks: {
+              label: function (c) {
+                var f = p.flights[c.dataIndex];
+                var ha = (f.pct !== null && f.areaHa !== null) ? (f.pct / 100) * f.areaHa : null;
+                return '%: ' + (c.parsed.y === null ? '—' : c.parsed.y.toFixed(1)) + ' · ' + (ha === null ? '—' : ha.toFixed(1) + ' ha');
+              }
+            }
+          }
+        },
+        scales: {
+          x: { grid: { display: false }, ticks: { color: '#7f8772', font: { family: 'IBM Plex Mono', size: 9 }, maxTicksLimit: 6, maxRotation: 0 }, border: { color: '#343b29' } },
+          y: { min: 0, max: 100, grid: { color: 'rgba(52,59,41,.45)' }, ticks: { color: '#7f8772', font: { family: 'IBM Plex Mono', size: 9 }, callback: function (v) { return v + '%'; } }, border: { color: '#343b29' } }
+        }
+      }
+    });
+
+    $('ch2-hint').textContent = '% bajo umbral ' + threshold.toFixed(2);
+  }
+
+  function renderHistory() {
+    var p = currentParcel(); if (!p) return;
+    var el = $('history');
+    el.innerHTML = '';
+    var total = p.flights.length;
+    $('history-count').textContent = total + (total === 1 ? ' vuelo' : ' vuelos');
+
+    for (var i = total - 1; i >= 0; i--) {
+      (function (i) {
+        var f = p.flights[i];
+        var d = parseDate(f.fecha);
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'hist-row';
+        btn.setAttribute('aria-pressed', i === state.index ? 'true' : 'false');
+        btn.dataset.i = String(i);
+        btn.style.setProperty('--c', stressColor(f.pct));
+        btn.innerHTML =
+          '<span class="hist-date"><b>' + (d.valid ? d.d + ' ' + MONTHS[d.m - 1] : f.fecha) + '</b>' + (d.valid ? d.y : '') + '</span>' +
+          '<span class="hist-crop" style="--c:' + cropColor(f.cultivo) + '">' + escapeHtml(cropLabel(f.cultivo)) + '</span>' +
+          '<span class="hist-mean">' + fmt(f.mean, 3) + '</span>' +
+          '<span class="hist-bar"><i style="width:' + (f.pct === null ? 0 : f.pct) + '%"></i></span>' +
+          '<span class="hist-pct">' + pctText(f.pct) + '<small>bajo umbral</small></span>';
+        btn.addEventListener('click', function () { selectFlight(i); });
+        el.appendChild(btn);
+      })(i);
+    }
+  }
+
+  function renderDownloads() {
+    var f = currentFlight(); if (!f) return;
+    var orto = f.png_orto ? './' + f.png_orto : '';
+    var vari = f.png ? './' + f.png : '';
+    var dlOrto = $('dl-orto'), dlVari = $('dl-vari');
+    if (orto) { dlOrto.href = orto; dlOrto.style.display = ''; } else { dlOrto.style.display = 'none'; }
+    if (vari) { dlVari.href = vari; dlVari.style.display = ''; } else { dlVari.style.display = 'none'; }
+  }
+
+  function downloadCsv() {
+    var p = currentParcel(); if (!p) return;
+    var sep = ';';
+    var headers = ['fecha','cultivo','vari_promedio','vari_min','vari_max','vari_std','pct_area_bajo_umbral','area_ha','ha_bajo_umbral'];
+    var lines = [headers.join(sep)];
+    p.flights.forEach(function (f) {
+      var stressHa = (f.pct !== null && f.areaHa !== null) ? (f.pct / 100) * f.areaHa : null;
+      var row = [f.fecha, f.cultivo, f.mean, f.min, f.max, f.std, f.pct, f.areaHa, stressHa];
+      lines.push(row.map(function (v) {
+        if (v === null || v === undefined) return '';
+        if (typeof v === 'number') return isFinite(v) ? v.toFixed(4).replace('.', ',') : '';
+        return String(v).replace(/;/g, ',');
+      }).join(sep));
+    });
+    var blob = new Blob(['\ufeff' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8;' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'HERMI_' + state.parcel + '_vuelos.csv';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1500);
+    toast('CSV del historial descargado');
+  }
+
+  function renderMeta() {
+    var total = 0, latest = null;
+    state.keys.forEach(function (k) {
+      var fs = state.data[k].flights;
+      total += fs.length;
+      fs.forEach(function (f) { if (!latest || f.fecha > latest) latest = f.fecha; });
+    });
+    $('meta-updated').textContent = latest ? 'Último vuelo: ' + longDate(latest) : 'Sin vuelos';
+    $('meta-flights').textContent = total + ' vuelos · ' + state.keys.length + ' parcelas';
+  }
+
+  function renderModeButtons() {
+    document.querySelectorAll('.seg button[data-mode]').forEach(function (b) {
+      b.setAttribute('aria-pressed', b.dataset.mode === state.mode ? 'true' : 'false');
+    });
+  }
+
+  function renderAll(opts) {
+    opts = opts || {};
+    var f = currentFlight();
+    if (!f) return;
+    renderParcelTabs();
+    renderModeButtons();
+    renderNav();
+    renderLegend();
+    renderKpis();
+    renderCharts();
+    renderAnalysis();
+    renderTimeline();
+    renderHistory();
+    renderDownloads();
+    renderMeta();
+    if (state.mapFailed) renderFallback(f);
+    else renderMap(!!opts.fit);
+    updateHash();
+  }
+
+  /* ============================================================
+     Acciones
+     ============================================================ */
+  function selectParcel(key) {
+    if (!state.data[key]) return;
+    state.parcel = key;
+    state.index = state.data[key].flights.length - 1;
+    state.compare = false;
+    renderAll({ fit: true });
+  }
+
+  function selectFlight(i) {
+    var p = currentParcel(); if (!p || i < 0 || i >= p.flights.length) return;
+    state.index = i;
+    if (i === 0) state.compare = false;
+    renderAll({ fit: true });
+  }
+
+  function setMode(mode) {
+    if (['orto','vari','sat'].indexOf(mode) === -1) return;
+    state.mode = mode;
+    if (mode === 'sat') state.compare = false;
+    renderAll({ fit: false });
+  }
+
+  function toggleCompare() {
+    if (state.index <= 0 || state.mode === 'sat') return;
+    state.compare = !state.compare;
+    renderAll({ fit: false });
+  }
+
+  function updateHash() {
+    try {
+      var hash = '#' + state.parcel + '/' + state.index + '/' + state.mode;
+      if (location.hash !== hash) history.replaceState(null, '', hash);
+    } catch (e) {}
+  }
+
+  function parseHash() {
+    try {
+      var parts = location.hash.replace(/^#/, '').split('/');
+      if (parts[0] && state.data[parts[0]]) state.parcel = parts[0];
+      var p = state.data[state.parcel];
+      var idx = parseInt(parts[1], 10);
+      if (isFinite(idx) && idx >= 0 && idx < p.flights.length) state.index = idx;
+      if (['orto','vari','sat'].indexOf(parts[2]) !== -1) state.mode = parts[2];
+    } catch (e) {}
+  }
+
+  function toast(msg) {
+    var t = $('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(t._timer);
+    t._timer = setTimeout(function () { t.classList.remove('show'); }, 2600);
+  }
+
+  function share() {
+    var url = location.href;
+    if (navigator.share) {
+      navigator.share({ title: document.title, text: 'Bitácora de vigor · Rancho HERMI', url: url }).catch(function () {});
+      return;
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(function () { toast('Enlace copiado'); }, function () { toast(url); });
+    } else {
+      toast(url);
+    }
+  }
+
+  function escapeHtml(s) {
+    return String(s === null || s === undefined ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  /* ============================================================
+     Arranque
+     ============================================================ */
+  async function init() {
+    wireEvents();
+    try {
+      var res = await fetch('./metadata.json', { cache: 'no-store' });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      var raw = await res.json();
+      var normalized = normalize(raw);
+      if (!normalized.keys.length) throw new Error('metadata.json no contiene vuelos válidos.');
+
+      state.data = normalized.data;
+      state.keys = normalized.keys;
+      state.parcel = normalized.keys.indexOf('este') !== -1 ? 'este' : normalized.keys[0];
+      state.index = state.data[state.parcel].flights.length - 1;
+      parseHash();
+
+      initMap();
+      renderAll({ fit: true });
+      $('fatal').hidden = true;
+    } catch (err) {
+      console.error(err);
+      var msg = $('fatal-msg');
+      if (msg) msg.textContent = 'Detalle: ' + (err && err.message ? err.message : String(err)) + '. Revisa que metadata.json esté en la misma carpeta y tenga un JSON válido.';
+      $('fatal').hidden = false;
+    }
+  }
+
+  function wireEvents() {
+    $('flight-prev').addEventListener('click', function () { selectFlight(state.index - 1); });
+    $('flight-next').addEventListener('click', function () { selectFlight(state.index + 1); });
+
+    document.querySelectorAll('.seg button[data-mode]').forEach(function (b) {
+      b.addEventListener('click', function () { setMode(b.dataset.mode); });
+    });
+
+    $('btn-compare').addEventListener('click', toggleCompare);
+    $('btn-share').addEventListener('click', share);
+    $('dl-csv').addEventListener('click', downloadCsv);
+
+    $('blend').addEventListener('input', function (e) {
+      state.blend = Number(e.target.value);
+      if (state.map && state.mapReady && state.map.getLayer('img-main')) {
+        state.map.setPaintProperty('img-main', 'raster-opacity', state.blend / 100);
+      }
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.target && /INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return;
+      if (e.key === 'ArrowLeft') { e.preventDefault(); selectFlight(state.index - 1); }
+      if (e.key === 'ArrowRight') { e.preventDefault(); selectFlight(state.index + 1); }
+    });
+
+    window.addEventListener('hashchange', function () {
+      var before = state.parcel + '/' + state.index + '/' + state.mode;
+      parseHash();
+      if (state.parcel + '/' + state.index + '/' + state.mode !== before) renderAll({ fit: true });
+    });
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
+</body>
+</html>
