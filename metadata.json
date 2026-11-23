@@ -110,6 +110,24 @@
         "vari_min": 0.0,
         "vari_max": 1.0,
         "vari_std": 0.3573
+      },
+      {
+        "fecha": "2026-11-20",
+        "cultivo": "MAIZ",
+        "png": "HERMI_ESTE_2026_11_20_vari.png",
+        "png_orto": "HERMI_ESTE_2026_11_20_orto.png",
+        "bounds": [
+          498557.96283102507,
+          2240730.120918006,
+          498936.41283596866,
+          2240993.160918993
+        ],
+        "crs": "EPSG:32614",
+        "pct_area_bajo_umbral": 83.4,
+        "vari_promedio": 0.1003,
+        "vari_min": -1.0,
+        "vari_max": 1.0,
+        "vari_std": 0.1351
       }
     ]
   },
@@ -638,6 +656,42 @@
         "vari_min": -1.0,
         "vari_max": 1.0,
         "vari_std": 0.13
+      },
+      {
+        "fecha": "2026-08-28",
+        "cultivo": "MAIZ",
+        "png": "HERMI_OESTE_2026_08_28_vari.png",
+        "png_orto": "HERMI_OESTE_2026_08_28_orto.png",
+        "bounds": [
+          498553.34029214527,
+          2240713.9149613865,
+          498945.20992376836,
+          2240997.044026779
+        ],
+        "crs": "EPSG:32614",
+        "pct_area_bajo_umbral": 93.5,
+        "vari_promedio": -0.0124,
+        "vari_min": -1.0,
+        "vari_max": 1.0,
+        "vari_std": 0.1386
+      },
+      {
+        "fecha": "2026-11-20",
+        "cultivo": "MAIZ",
+        "png": "HERMI_OESTE_2026_11_20_vari.png",
+        "png_orto": "HERMI_OESTE_2026_11_20_orto.png",
+        "bounds": [
+          498867.71704806865,
+          2240777.723313991,
+          499310.18705895497,
+          2241120.5033120126
+        ],
+        "crs": "EPSG:32614",
+        "pct_area_bajo_umbral": 94.0,
+        "vari_promedio": -0.0094,
+        "vari_min": -1.0,
+        "vari_max": 1.0,
+        "vari_std": 0.1263
       }
     ]
   }
